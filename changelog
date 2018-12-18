@@ -8,3 +8,7 @@ v 1.0.1
  it gets zeroed
  - minute field on time input no longer focuses out when you fill the two
  fields
+
+ v1.0.3
+  - added more initial form fields: Bedrijfsnaam Voornaam Tussenvoegsels Achternaam E-mail Telefoonnummer
+  - position numbers from form fields and locations start from 1 now

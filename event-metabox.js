@@ -360,7 +360,16 @@ const app = new Vue({
       endHour: new Date().getHours(),
       endMin: new Date().getMinutes(),
     }] : JSON.parse(window.atob(rawDates)),
-    formFields: rawFormFields === '' ? [{value: 'Email', slug: generateSlug('Email'), position: 0},] : JSON.parse(window.atob(rawFormFields)),
+    formFields: rawFormFields === '' ? 
+      [ 
+        {value: 'Bedrijfsnaam', slug: generateSlug('Bedrijfsnaam'), position: 1 },
+        {value: 'Voornaam', slug: generateSlug('Voornaam'), position: 2 },
+        {value: 'Tussenvoegsels', slug: generateSlug('Tussenvoegsels'), position: 3 },
+        {value: 'Achternaam', slug: generateSlug('Achternaam'), position: 4 },
+        {value: 'E-mail', slug: generateSlug('E-mail'), position: 5 },
+        {value: 'Telefoonnummer', slug: generateSlug('Telefoonnummer'), position: 6 },
+      ] : 
+      JSON.parse(window.atob(rawFormFields)),
     locationsSelectedDate: 0,
     subsSelectedDate: 0,
     subsSelectedLoc: 0,
@@ -408,7 +417,7 @@ const app = new Vue({
       this.formFields.push({
         value: field,
         slug: generateSlug(field),
-        position: this.formFields.length,
+        position: this.formFields.length+1,
       });
     },
 
@@ -445,7 +454,7 @@ const app = new Vue({
         endMin: time.endMin,
         id: ID(),
         subscriptions: [],
-        position: this.locations.length,
+        position: this.locations.length+1,
       });
     },
 
