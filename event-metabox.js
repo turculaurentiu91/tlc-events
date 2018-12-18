@@ -39,63 +39,54 @@ Vue.component('date-input', {
     index: {type: Number},
   },
 
-  template: '\
-  <div class="w3-row-padding w3-padding" v-bind:class="{\'w3-light-gray\' : !(index % 2)}">\
-    <div class="w3-col w3-margin" style="width: 10em;"><h4>Date {{index+1}}:</h4></div>\
-    <div class="w3-col" style="width: 7em;">\
-      <label>{{dayLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="dayLabel" v-bind:value="date.day"  \
-        @input="$emit(\'change-day\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 7em;">\
-      <label>{{monthLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="monthLabel" v-bind:value="date.month" \
-        @input="$emit(\'change-month\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 7em;">\
-      <label>{{yearLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="yearLabel" v-bind:value="date.year" \
-        @input="$emit(\'change-year\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 9em;">\
-      <label>{{startHourLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="startHourLabel" v-bind:value="date.startHour" \
-        @input="$emit(\'change-start-hour\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 9em;">\
-      <label>{{startMinLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="startMinLabel" v-bind:value="date.startMin" \
-        @input="$emit(\'change-start-min\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 9em;">\
-      <label>{{endHourLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="endHourLabel" v-bind:value="date.endHour" \
-        @input="$emit(\'change-end-hour\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    \
-    <div class="w3-col" style="width: 9em;">\
-      <label>{{endMinLabel}}</label>\
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="endMinLabel" v-bind:value="date.endMin" \
-        @input="$emit(\'change-end-min\', {index: index,  value: $event.target.value})"\
-      >\
-    </div>\
-    <div class="w3-rest w3-right-align">\
-    <button class="w3-button w3-margin w3-red w3-round" \
-    @click.prevent="$emit(\'delete-date\', index)"\
-    ><span class="dashicons dashicons-no"></span></button>\
-    </div>\
-  </div>',
+  template: `
+  <div class="w3-row-padding w3-padding" v-bind:class="{'w3-light-gray' : !(index % 2)}">
+    <div class="w3-col w3-margin" style="width: 10em;"><h4>Date {{index+1}}:</h4></div>
+    <div class="w3-col" style="width: 7em;">
+      <label>{{dayLabel}}</label>
+      <input type="number" class="w3-input w3-border" v-bind:placeholder="dayLabel" v-bind:value="date.day"  
+        @input="$emit('change-day', {index: index,  value: $event.target.value})"
+      >
+    </div>
+    
+    <div class="w3-col" style="width: 7em;">
+      <label>{{monthLabel}}</label>
+      <input type="number" class="w3-input w3-border" v-bind:placeholder="monthLabel" v-bind:value="date.month" 
+        @input="$emit('change-month', {index: index,  value: $event.target.value})"
+      >
+    </div>
+    
+    <div class="w3-col" style="width: 7em;">
+      <label>{{yearLabel}}</label>
+      <input type="number" class="w3-input w3-border" v-bind:placeholder="yearLabel" v-bind:value="date.year" 
+        @input="$emit('change-year', {index: index,  value: $event.target.value})"
+      >
+    </div>
+    
+    <div class="w3-col" style="width: 9em;">
+      <label>Beginnend bij</label>
+      <time-input
+        v-bind:hour="date.startHour"
+        v-bind:min="date.startMin"
+        v-on:change-hour="$emit('change-start-hour', {index: index,  value: $event})"
+        v-on:change-min="$emit('change-start-min', {index: index,  value: $event})"
+      ></time-input>
+    </div>
+
+    <div class="w3-col" style="width: 9em;">
+      <label>Eindigend op</label>
+      <time-input
+        v-bind:hour="date.endHour"
+        v-bind:min="date.endMin"
+        v-on:change-hour="$emit('change-end-hour', {index: index,  value: $event})"
+        v-on:change-min="$emit('change-end-min', {index: index,  value: $event})"
+      ></time-input>
+    </div>
+    <div class="w3-rest w3-right-align">
+      <button class="w3-button w3-margin w3-red w3-round" @click.prevent="$emit('delete-date', index)"><span class="dashicons dashicons-no"></span></button>
+    </div>
+  </div> 
+`,
 });
 
 Vue.component('location-input', {
@@ -119,36 +110,24 @@ Vue.component('location-input', {
         >
       </div>
 
-      <div class="w3-col" style="width: 8em;">
-        <label>{{startHourLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.startHour" class="w3-input w3-border" v-bind:placeholder="startHourLabel"
-          @input="$emit(\'change-start-hour\', {index: index, value: $event.target.value})"  
-        >
+      <div class="w3-col" style="width: 9em;">
+        <label>Beginnend bij</label>
+        <time-input
+          v-bind:hour="location.startHour"
+          v-bind:min="location.startMin"
+          v-on:change-hour="$emit('change-start-hour', {index: index,  value: $event})"
+          v-on:change-min="$emit('change-start-min', {index: index,  value: $event})"
+        ></time-input>
       </div>
 
-      <div class="w3-col" style="width: 8em;">
-        <label>{{startMinLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.startMin" class="w3-input w3-border" v-bind:placeholder="startMinLabel"
-          @input="$emit(\'change-start-min\', {index: index, value: $event.target.value})"
-        >
-      </div>
-
-      <div class="w3-col" style="width: 8em;">
-        <label>{{endHourLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.endHour" class="w3-input w3-border" v-bind:placeholder="endHourLabel"
-          @input="$emit(\'change-end-hour\', {index: index, value: $event.target.value})"  
-        >
-      </div>
-
-      <div class="w3-col" style="width: 8em;">
-        <label>{{endMinLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.endMin" class="w3-input w3-border" v-bind:placeholder="endMinLabel"
-          @input="$emit(\'change-end-min\', {index: index, value: $event.target.value})"
-        >
+      <div class="w3-col" style="width: 9em;">
+        <label>Eindigend op</label>
+        <time-input
+          v-bind:hour="location.endHour"
+          v-bind:min="location.endMin"
+          v-on:change-hour="$emit('change-end-hour', {index: index,  value: $event})"
+          v-on:change-min="$emit('change-end-min', {index: index,  value: $event})"
+        ></time-input>
       </div>
 
       <div class="w3-col" style="width: 5em;">
@@ -209,6 +188,75 @@ Vue.component('form-input', {
   </div>
   `,
 });
+
+Vue.component('time-input', {
+  template: `
+  <div class="time-input" v-bind:class="{'time-input--focused':focused}"
+    @click.self="onClick">
+      <input class="time-input__input" type="text" style="text-align: right;"
+      @focus="focusHour" @blur="blurHour"
+      v-bind:value="hour" ref="hourInput" @input.prevent="changeHour">
+      <span class="time-input__colon">:</span>
+      <input class="time-input__input" type="text" style="text-align: left;"
+      @focus="focusMin" @blur="blurMin" @input.prevent="changeMin"
+      v-bind:value="min" ref="minInput">
+  </div>
+  `,
+  props: ['hour', 'min'],
+  data: function() { return {
+    focused: false,
+    tempHour: 0,
+    tempMin: 0,
+  }; },
+  computed: {
+  },
+  methods: {
+    changeHour: function(e) {
+      let val = e.target.value;
+      if (val.length >= 2) {
+        this.$refs.minInput.focus();
+        val = val.slice(0, 2);
+        this.$emit('change-hour', val);
+      }
+      this.tempHour = val;
+    },
+    changeMin: function(e) {
+      let val = e.target.value;
+      if (val.length >= 2) {
+        this.$refs.minInput.blur();
+        val = val.slice(0, 2);
+        this.$emit('change-min', val);
+      }
+      this.tempMin = val;
+    },
+    blurHour: function(){
+      this.focused = false;
+      this.$emit(
+        'change-hour',
+        moment().hour(Number(this.tempHour)).format("HH")
+      );
+    },
+    blurMin: function(){
+      this.focused = false;
+      this.$emit(
+        'change-min',
+        moment().minute(Number(this.tempMin)).format("mm")
+      );
+    },
+    focusMin: function(e) {
+      this.focused = true;
+      e.target.select();
+    },
+    focusHour: function(e) {
+      this.focused = true;
+      e.target.select();
+    },
+    onClick: function(e) {
+      this.$refs.hourInput.focus();
+    }
+  },
+
+})
 
 const app = new Vue({
   el: '#event-metabox',
@@ -352,58 +400,42 @@ const app = new Vue({
     },
 
     changeLocStartHour: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[this.locationsSelectedDate].locations[data.index].startHour = data.value;
     },
     
     changeLocStartMin: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[this.locationsSelectedDate].locations[data.index].startMin = data.value;
     },
 
     changeLocEndHour: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[this.locationsSelectedDate].locations[data.index].endHour = data.value;
     },
     
     changeLocEndMin: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[this.locationsSelectedDate].locations[data.index].endMin = data.value;
     },
     
     changeStartHour: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[data.index].startHour = data.value;
     },
     
     changeEndHour: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[data.index].endHour = data.value;
     },
     
     changeStartMin: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[data.index].startMin = data.value;
     },
 
     changeEndMin: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 0 ? 60 : data.value;
-      data.value = data.value > 60 ? 0 : data.value;
+      data.value = data.value;
       this.dates[data.index].endMin = data.value;
     },
 

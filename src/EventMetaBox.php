@@ -36,6 +36,8 @@ class EventMetaBox {
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="<?= plugins_url('event-metabox.css', dirname(__FILE__)) ?>">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
+    integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
 
     <div class="event-metabox w3-card-2" id="event-metabox">
       <input type="hidden" name="tlc-dates" id="tlc-dates" v-bind:value="jsonDates" >
