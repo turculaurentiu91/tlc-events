@@ -1,0 +1,356 @@
+# Copyright (C) 2018 Turcu Laurentiu
+# This file is distributed under the same license as the WP TLC Events plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP TLC Events 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tlc-events\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2018-12-16T22:23:46+01:00\n"
+"PO-Revision-Date: 2018-12-17 13:54+0100\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Domain: tlc-events\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl_NL\n"
+
+#. Plugin Name of the plugin
+msgid "WP TLC Events"
+msgstr "Hoppenbrouwers Evenementen"
+
+#. Plugin URI of the plugin
+msgid "http://wordpress.org/"
+msgstr "https://www.hoppenbrouwerstechniek.nl/"
+
+#. Description of the plugin
+msgid "Manage Events"
+msgstr "Evenementen"
+
+#. Author of the plugin
+msgid "Turcu Laurentiu"
+msgstr "Marnick van den Brand"
+
+#: src/Api.php:67
+msgid "Subscription Notification"
+msgstr "Aanmeld notificatie"
+
+#: src/archive-template.php:24
+msgid "January"
+msgstr "Januari"
+
+#: src/archive-template.php:25
+msgid "February"
+msgstr "Februari"
+
+#: src/archive-template.php:26
+msgid "March"
+msgstr "Maart"
+
+#: src/archive-template.php:27
+msgid "April"
+msgstr "April"
+
+#: src/archive-template.php:28
+msgid "May"
+msgstr "Mei"
+
+#: src/archive-template.php:29
+msgid "June"
+msgstr "Juni"
+
+#: src/archive-template.php:30
+msgid "July"
+msgstr "Juli"
+
+#: src/archive-template.php:31
+msgid "August"
+msgstr "Augustus"
+
+#: src/archive-template.php:32
+msgid "September"
+msgstr "September"
+
+#: src/archive-template.php:33
+msgid "October"
+msgstr "Oktober"
+
+#: src/archive-template.php:34
+msgid "November"
+msgstr "November"
+
+#: src/archive-template.php:35
+msgid "December"
+msgstr "December"
+
+#: src/EventMetaBox.php:48
+msgid "Dates"
+msgstr "Data"
+
+#: src/EventMetaBox.php:52 src/template-single-event.php:67
+msgid "Locations"
+msgstr "Locaties"
+
+#: src/EventMetaBox.php:56 src/EventMetaBox.php:156
+#: src/template-single-event.php:87
+msgid "Subscription Form"
+msgstr "Aanmeldformulier"
+
+#: src/EventMetaBox.php:60
+msgid "Subscriptions"
+msgstr "Aanmeldingen"
+
+#: src/EventMetaBox.php:64
+msgid "Email Template"
+msgstr "E-mail template"
+
+#: src/EventMetaBox.php:70 src/EventMetaBox.php:101
+msgid "You must specify at least one date!"
+msgstr "Er moet minstens 1 datum worden gekozen."
+
+#: src/EventMetaBox.php:80
+msgid "Day"
+msgstr "Dag"
+
+#: src/EventMetaBox.php:81
+msgid "Month"
+msgstr "Maand"
+
+#: src/EventMetaBox.php:82
+msgid "Year"
+msgstr "Jaar"
+
+#: src/EventMetaBox.php:92
+msgid "New Date"
+msgstr "Datum toevoegen"
+
+#: src/EventMetaBox.php:105
+msgid "You must specify at least one location for this date!"
+msgstr "Er moet minstens 1 locatie worden gekozen per datum."
+
+#: src/EventMetaBox.php:109
+msgid "Select Date"
+msgstr "Evenement datum"
+
+#: src/EventMetaBox.php:119
+msgid "Copy those locations for all dates"
+msgstr "Kopieer deze locaties voor alle data"
+
+#: src/EventMetaBox.php:130 src/template-single-event.php:69
+#: src/template-single-event.php:113
+msgid "City"
+msgstr "Plaatsnaam"
+
+#: src/EventMetaBox.php:131
+msgid "Hour"
+msgstr "Uur"
+
+#: src/EventMetaBox.php:132
+msgid "Minute"
+msgstr "Minuut"
+
+#: src/EventMetaBox.php:133 src/template-single-event.php:71
+#: src/template-single-event.php:115
+msgid "Address"
+msgstr "Adres"
+
+#: src/EventMetaBox.php:146
+msgid "New Location"
+msgstr "Locatie toevoegen"
+
+#: src/EventMetaBox.php:167
+msgid "Field Name"
+msgstr "Veld"
+
+#: src/EventMetaBox.php:177
+msgid "new field"
+msgstr "nieuw veld"
+
+#: src/EventMetaBox.php:178
+msgid "New Form Field"
+msgstr "Formulierveld toevoegen"
+
+#: src/EventMetaBox.php:184
+msgid "Select a date"
+msgstr "Datum"
+
+#: src/EventMetaBox.php:191
+msgid "Select a location"
+msgstr "Locatie"
+
+#: src/EventMetaBox.php:204
+msgid "No locations for selected date"
+msgstr "Geen locaties voor geselecteerde datum"
+
+#: src/EventMetaBox.php:211
+msgid "No subscriptions for this date and location"
+msgstr "Nog geen aanmeldingen voor deze datum-locatie combinatie"
+
+#: src/EventMetaBox.php:227
+msgid "Export Table to CSV"
+msgstr "Exporteer naar CSV"
+
+#: src/EventMetaBox.php:241
+msgid "Available tags"
+msgstr "Te gebruiken tags"
+
+#: src/EventMetaBox.php:242
+msgid ""
+"Other tags are derrived from form fields slugs. For example, if a form field "
+"slug is \"full_name\" an valid tag is &#37;full_name&#37; and it will be "
+"replaced with what user submitted in that form field in the subscription "
+"form."
+msgstr ""
+"Daarnaast zijn de formuliervelden te gebruiken als tag. Veld “naam” is dan "
+"te gebruiken als %naam%."
+
+#: src/EventPostType.php:99
+msgctxt "Post Type General Name"
+msgid "Events"
+msgstr "Evenementen"
+
+#: src/EventPostType.php:100
+msgctxt "Post Type Singular Name"
+msgid "Event"
+msgstr "Evenement"
+
+#: src/EventPostType.php:101 src/EventPostType.php:129
+msgid "Events"
+msgstr "Evenementen"
+
+#: src/EventPostType.php:103
+msgid "Event Archives"
+msgstr "Evenementen"
+
+#: src/EventPostType.php:104
+msgid "Event Attributes"
+msgstr "Evenement attributen"
+
+#: src/EventPostType.php:105
+msgid "Parent Event:"
+msgstr "Hoofd evenement:"
+
+#: src/EventPostType.php:106
+msgid "All Events"
+msgstr "Alle evenementen"
+
+#: src/EventPostType.php:107
+msgid "Add New Event"
+msgstr "Nieuw evenement"
+
+#: src/EventPostType.php:108
+msgid "Add New"
+msgstr "Nieuw evenement"
+
+#: src/EventPostType.php:109
+msgid "New Event"
+msgstr "Nieuw evenement"
+
+#: src/EventPostType.php:110
+msgid "Edit Event"
+msgstr "Bewerk evenement"
+
+#: src/EventPostType.php:111
+msgid "Update Event"
+msgstr "Evenement bijwerken"
+
+#: src/EventPostType.php:112
+msgid "View Event"
+msgstr "Bekijk evenement"
+
+#: src/EventPostType.php:113
+msgid "View Events"
+msgstr "Bekijk evenementen"
+
+#: src/EventPostType.php:114
+msgid "Search Event"
+msgstr "Evenement zoeken"
+
+#: src/EventPostType.php:115
+msgid "Not found"
+msgstr "Niets gevonden"
+
+#: src/EventPostType.php:116
+msgid "Not found in Trash"
+msgstr "Niets gevonden in de prullenbak"
+
+#: src/EventPostType.php:117
+msgid "Featured Image"
+msgstr "Kleine afbeelding"
+
+#: src/EventPostType.php:118
+msgid "Set featured image"
+msgstr "Kies de kleine afbeelding"
+
+#: src/EventPostType.php:119
+msgid "Remove featured image"
+msgstr "Verwijder de kleine afbeelding"
+
+#: src/EventPostType.php:120
+msgid "Use as featured image"
+msgstr "Gebruik als kleine foto"
+
+#: src/EventPostType.php:121
+msgid "Insert into event"
+msgstr "In evenement toevoegen"
+
+#: src/EventPostType.php:122
+msgid "Uploaded to this event"
+msgstr "Bij dit evenement toegevoegd"
+
+#: src/EventPostType.php:123
+msgid "Events list"
+msgstr "Evenementen overzicht"
+
+#: src/EventPostType.php:124
+msgid "Events list navigation"
+msgstr "Evenementen navigatie"
+
+#: src/EventPostType.php:125
+msgid "Filter events list"
+msgstr "Filter evenementen overzicht"
+
+#: src/EventPostType.php:128
+msgid "Event"
+msgstr "Evenement"
+
+#: src/Main.php:54
+msgid "Notification"
+msgstr "Notificatie"
+
+#: src/settings-menu-template.php:45
+msgid "TLC Events Settings Page"
+msgstr "Instellingen"
+
+#: src/settings-menu-template.php:91
+msgid "Submit"
+msgstr "Opslaan"
+
+#: src/SettingsMenu.php:15 src/SettingsMenu.php:16
+msgid "Settings"
+msgstr "Instellingen"
+
+#: src/template-single-event.php:20 src/template-single-event.php:30
+msgid "Invalid unsubscribe link"
+msgstr "Ongeldige uitschrijflink"
+
+#: src/template-single-event.php:64
+msgid "Dates and Locations"
+msgstr "Data informatie"
+
+#: src/template-single-event.php:70 src/template-single-event.php:114
+msgid "starting at"
+msgstr "Vanaf"
+
+#: src/template-single-event.php:78 src/template-single-event.php:103
+msgid "Subscribe"
+msgstr "Aanmelden"
+
+#: src/template-single-event.php:107
+msgid "Subscribing..."
+msgstr "Aanmelden.."
+
+#: src/template-single-event.php:136
+msgid "Close"
+msgstr "Sluiten"

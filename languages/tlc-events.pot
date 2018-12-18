@@ -1,0 +1,358 @@
+# Copyright (C) 2018 Turcu Laurentiu
+# This file is distributed under the same license as the WP TLC Events plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP TLC Events 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tlc-events\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2018-12-16T22:23:46+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: tlc-events\n"
+
+#. Plugin Name of the plugin
+msgid "WP TLC Events"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "http://wordpress.org/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Manage Events"
+msgstr ""
+
+#. Author of the plugin
+msgid "Turcu Laurentiu"
+msgstr ""
+
+#: src/Api.php:67
+msgid "Subscription Notification"
+msgstr ""
+
+#: src/archive-template.php:24
+msgid "January"
+msgstr ""
+
+#: src/archive-template.php:25
+msgid "February"
+msgstr ""
+
+#: src/archive-template.php:26
+msgid "March"
+msgstr ""
+
+#: src/archive-template.php:27
+msgid "April"
+msgstr ""
+
+#: src/archive-template.php:28
+msgid "May"
+msgstr ""
+
+#: src/archive-template.php:29
+msgid "June"
+msgstr ""
+
+#: src/archive-template.php:30
+msgid "July"
+msgstr ""
+
+#: src/archive-template.php:31
+msgid "August"
+msgstr ""
+
+#: src/archive-template.php:32
+msgid "September"
+msgstr ""
+
+#: src/archive-template.php:33
+msgid "October"
+msgstr ""
+
+#: src/archive-template.php:34
+msgid "November"
+msgstr ""
+
+#: src/archive-template.php:35
+msgid "December"
+msgstr ""
+
+#: src/EventMetaBox.php:48
+msgid "Dates"
+msgstr ""
+
+#: src/EventMetaBox.php:52
+#: src/template-single-event.php:67
+msgid "Locations"
+msgstr ""
+
+#: src/EventMetaBox.php:56
+#: src/EventMetaBox.php:156
+#: src/template-single-event.php:87
+msgid "Subscription Form"
+msgstr ""
+
+#: src/EventMetaBox.php:60
+msgid "Subscriptions"
+msgstr ""
+
+#: src/EventMetaBox.php:64
+msgid "Email Template"
+msgstr ""
+
+#: src/EventMetaBox.php:70
+#: src/EventMetaBox.php:101
+msgid "You must specify at least one date!"
+msgstr ""
+
+#: src/EventMetaBox.php:80
+msgid "Day"
+msgstr ""
+
+#: src/EventMetaBox.php:81
+msgid "Month"
+msgstr ""
+
+#: src/EventMetaBox.php:82
+msgid "Year"
+msgstr ""
+
+#: src/EventMetaBox.php:92
+msgid "New Date"
+msgstr ""
+
+#: src/EventMetaBox.php:105
+msgid "You must specify at least one location for this date!"
+msgstr ""
+
+#: src/EventMetaBox.php:109
+msgid "Select Date"
+msgstr ""
+
+#: src/EventMetaBox.php:119
+msgid "Copy those locations for all dates"
+msgstr ""
+
+#: src/EventMetaBox.php:130
+#: src/template-single-event.php:69
+#: src/template-single-event.php:113
+msgid "City"
+msgstr ""
+
+#: src/EventMetaBox.php:131
+msgid "Hour"
+msgstr ""
+
+#: src/EventMetaBox.php:132
+msgid "Minute"
+msgstr ""
+
+#: src/EventMetaBox.php:133
+#: src/template-single-event.php:71
+#: src/template-single-event.php:115
+msgid "Address"
+msgstr ""
+
+#: src/EventMetaBox.php:146
+msgid "New Location"
+msgstr ""
+
+#: src/EventMetaBox.php:167
+msgid "Field Name"
+msgstr ""
+
+#: src/EventMetaBox.php:177
+msgid "new field"
+msgstr ""
+
+#: src/EventMetaBox.php:178
+msgid "New Form Field"
+msgstr ""
+
+#: src/EventMetaBox.php:184
+msgid "Select a date"
+msgstr ""
+
+#: src/EventMetaBox.php:191
+msgid "Select a location"
+msgstr ""
+
+#: src/EventMetaBox.php:204
+msgid "No locations for selected date"
+msgstr ""
+
+#: src/EventMetaBox.php:211
+msgid "No subscriptions for this date and location"
+msgstr ""
+
+#: src/EventMetaBox.php:227
+msgid "Export Table to CSV"
+msgstr ""
+
+#: src/EventMetaBox.php:241
+msgid "Available tags"
+msgstr ""
+
+#: src/EventMetaBox.php:242
+msgid "Other tags are derrived from form fields slugs. For example, if a form field slug is \"full_name\" an valid tag is &#37;full_name&#37; and it will be replaced with what user submitted in that form field in the subscription form."
+msgstr ""
+
+#: src/EventPostType.php:99
+msgctxt "Post Type General Name"
+msgid "Events"
+msgstr ""
+
+#: src/EventPostType.php:100
+msgctxt "Post Type Singular Name"
+msgid "Event"
+msgstr ""
+
+#: src/EventPostType.php:101
+#: src/EventPostType.php:129
+msgid "Events"
+msgstr ""
+
+#: src/EventPostType.php:103
+msgid "Event Archives"
+msgstr ""
+
+#: src/EventPostType.php:104
+msgid "Event Attributes"
+msgstr ""
+
+#: src/EventPostType.php:105
+msgid "Parent Event:"
+msgstr ""
+
+#: src/EventPostType.php:106
+msgid "All Events"
+msgstr ""
+
+#: src/EventPostType.php:107
+msgid "Add New Event"
+msgstr ""
+
+#: src/EventPostType.php:108
+msgid "Add New"
+msgstr ""
+
+#: src/EventPostType.php:109
+msgid "New Event"
+msgstr ""
+
+#: src/EventPostType.php:110
+msgid "Edit Event"
+msgstr ""
+
+#: src/EventPostType.php:111
+msgid "Update Event"
+msgstr ""
+
+#: src/EventPostType.php:112
+msgid "View Event"
+msgstr ""
+
+#: src/EventPostType.php:113
+msgid "View Events"
+msgstr ""
+
+#: src/EventPostType.php:114
+msgid "Search Event"
+msgstr ""
+
+#: src/EventPostType.php:115
+msgid "Not found"
+msgstr ""
+
+#: src/EventPostType.php:116
+msgid "Not found in Trash"
+msgstr ""
+
+#: src/EventPostType.php:117
+msgid "Featured Image"
+msgstr ""
+
+#: src/EventPostType.php:118
+msgid "Set featured image"
+msgstr ""
+
+#: src/EventPostType.php:119
+msgid "Remove featured image"
+msgstr ""
+
+#: src/EventPostType.php:120
+msgid "Use as featured image"
+msgstr ""
+
+#: src/EventPostType.php:121
+msgid "Insert into event"
+msgstr ""
+
+#: src/EventPostType.php:122
+msgid "Uploaded to this event"
+msgstr ""
+
+#: src/EventPostType.php:123
+msgid "Events list"
+msgstr ""
+
+#: src/EventPostType.php:124
+msgid "Events list navigation"
+msgstr ""
+
+#: src/EventPostType.php:125
+msgid "Filter events list"
+msgstr ""
+
+#: src/EventPostType.php:128
+msgid "Event"
+msgstr ""
+
+#: src/Main.php:54
+msgid "Notification"
+msgstr ""
+
+#: src/settings-menu-template.php:45
+msgid "TLC Events Settings Page"
+msgstr ""
+
+#: src/settings-menu-template.php:91
+msgid "Submit"
+msgstr ""
+
+#: src/SettingsMenu.php:15
+#: src/SettingsMenu.php:16
+msgid "Settings"
+msgstr ""
+
+#: src/template-single-event.php:20
+#: src/template-single-event.php:30
+msgid "Invalid unsubscribe link"
+msgstr ""
+
+#: src/template-single-event.php:64
+msgid "Dates and Locations"
+msgstr ""
+
+#: src/template-single-event.php:70
+#: src/template-single-event.php:114
+msgid "starting at"
+msgstr ""
+
+#: src/template-single-event.php:78
+#: src/template-single-event.php:103
+msgid "Subscribe"
+msgstr ""
+
+#: src/template-single-event.php:107
+msgid "Subscribing..."
+msgstr ""
+
+#: src/template-single-event.php:136
+msgid "Close"
+msgstr ""

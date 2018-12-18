@@ -1,0 +1,34 @@
+#archive-template {
+}
+
+.tlc-event-title-link {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.tlc-date:not(:last-child)::after {
+  content: "|";
+}
+
+@media (min-width: 1240px) {
+
+}
+
+@media (max-width: 900px) {
+  .tlc-date {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 600px) {
+  #archive-template {
+    margin: 0;
+  }
+  .tlc-date {
+    display: block;
+  }
+  .tlc-date:not(:last-child)::after {
+    content: "";
+  }
+}
