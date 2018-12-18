@@ -137,12 +137,9 @@ class EventMetaBox {
                 :key="index"
                 v-bind:location="location"
                 v-bind:index="index"
+                v-bind:custom-time="location.customTime"
                 city-label="<?= __("City", "tlc-events") ?>"
                 name-label="<?= __("Name", "tlc-events") ?>" 
-                start-hour-label="<?=__("Start","tlc-events") . ' ' . __("Hour", "tlc-events") ?>"
-                start-min-label="<?= __("Start","tlc-events") . ' ' . __("Minute", "tlc-events") ?>"
-                end-hour-label="<?=__("End","tlc-events") . ' ' . __("Hour", "tlc-events") ?>"
-                end-min-label="<?= __("End","tlc-events") . ' ' . __("Minute", "tlc-events") ?>"
                 address-label="<?= __("Address", "tlc-events") ?>"
                 v-on:change-city="changeCity"
                 v-on:change-name="changeName"
@@ -152,6 +149,7 @@ class EventMetaBox {
                 v-on:change-end-hour="changeLocEndHour"
                 v-on:change-end-min="changeLocEndMin"
                 v-on:change-position="changeLocPosition"
+                v-on:checked="locationCheck"
                 v-on:delete-location="deleteLocation"
               >
               

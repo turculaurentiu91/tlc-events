@@ -244,7 +244,7 @@ Vue.component('time-input', {
 })
 
 Vue.component('location-input', {
-  props: ['nameLabel', 'index', 'location', 'startMinLabel', 'startHourLabel', 'endMinLabel', 'endHourLabel', 'cityLabel', 'addressLabel'],
+  props: ['nameLabel', 'index', 'location', 'customTime', 'cityLabel', 'addressLabel'],
   template: `
   <div class="w3-padding w3-padding-24" v-bind:class="{\'w3-light-gray\' : !(index % 2)}">
     <div class="w3-row-padding">
@@ -264,7 +264,7 @@ Vue.component('location-input', {
         >
       </div>
 
-      <div class="w3-col" style="width: 9em;">
+      <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
         <label>Beginnend bij</label>
         <time-input
           v-bind:hour="location.startHour"
@@ -274,7 +274,7 @@ Vue.component('location-input', {
         ></time-input>
       </div>
 
-      <div class="w3-col" style="width: 9em;">
+      <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
         <label>Eindigend op</label>
         <time-input
           v-bind:hour="location.endHour"
@@ -309,6 +309,11 @@ Vue.component('location-input', {
           @input="$emit(\'change-address\', {index: index, value: $event.target.value})"
         > 
       </div>
+    </div>
+    <div class="w3-panel">
+      <input class="w3-check" type="checkbox" @click="$emit('checked', {index: index, value: $event.target.checked})" 
+      v-bind:id="'loc-checkbox-'+index" v-bind:checked="Number(customTime)">
+      <label v-bind:for="'loc-checkbox-'+index">Aangepaste tijden</label>
     </div>
   </div>
   `,
@@ -452,6 +457,7 @@ const app = new Vue({
         endHour: time.endHour,
         startMin: time.startMin,
         endMin: time.endMin,
+        customTime: "0",
         id: ID(),
         subscriptions: [],
         position: this.locations.length+1,
@@ -556,6 +562,23 @@ const app = new Vue({
     changeDateYear: function(data) {
       data.value = data.value;
       this.dates[data.index].year = data.value;
+    },
+
+    locationCheck: function(e) {
+      this.dates[this.locationsSelectedDate].locations[e.index].customTime = e.value;
+      if (!e.value) {
+        this.dates[this.locationsSelectedDate].locations[e.index].startHour =
+          this.dates[this.locationsSelectedDate].startHour;
+
+        this.dates[this.locationsSelectedDate].locations[e.index].endHour =
+          this.dates[this.locationsSelectedDate].endHour;
+
+        this.dates[this.locationsSelectedDate].locations[e.index].startMin =
+          this.dates[this.locationsSelectedDate].startMin;
+
+        this.dates[this.locationsSelectedDate].locations[e.index].endMin =
+          this.dates[this.locationsSelectedDate].endMin;
+      }
     },
 
     copyLocations: function() {

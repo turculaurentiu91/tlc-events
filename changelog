@@ -12,3 +12,7 @@ v 1.0.1
  v1.0.3
   - added more initial form fields: Bedrijfsnaam Voornaam Tussenvoegsels Achternaam E-mail Telefoonnummer
   - position numbers from form fields and locations start from 1 now
+
+ v1.0.4
+  - on backend edit event, added a checkbox on location, to use the date time or to insert a custom
+  time
