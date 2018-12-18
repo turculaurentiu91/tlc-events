@@ -1,3 +1,10 @@
 v 1.0.1 
  - added new time input field in wp-admin when you edit an event
  - added the changelog
+
+ v1.0.2
+ - added new date input field and updated it in the edit event screen
+ - fixed bug on time input when you clicked away from hour or minute
+ it gets zeroed
+ - minute field on time input no longer focuses out when you fill the two
+ fields

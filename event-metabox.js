@@ -42,25 +42,17 @@ Vue.component('date-input', {
   template: `
   <div class="w3-row-padding w3-padding" v-bind:class="{'w3-light-gray' : !(index % 2)}">
     <div class="w3-col w3-margin" style="width: 10em;"><h4>Date {{index+1}}:</h4></div>
-    <div class="w3-col" style="width: 7em;">
-      <label>{{dayLabel}}</label>
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="dayLabel" v-bind:value="date.day"  
-        @input="$emit('change-day', {index: index,  value: $event.target.value})"
-      >
-    </div>
-    
-    <div class="w3-col" style="width: 7em;">
-      <label>{{monthLabel}}</label>
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="monthLabel" v-bind:value="date.month" 
-        @input="$emit('change-month', {index: index,  value: $event.target.value})"
-      >
-    </div>
-    
-    <div class="w3-col" style="width: 7em;">
-      <label>{{yearLabel}}</label>
-      <input type="number" class="w3-input w3-border" v-bind:placeholder="yearLabel" v-bind:value="date.year" 
-        @input="$emit('change-year', {index: index,  value: $event.target.value})"
-      >
+
+    <div class="w3-col" style="width: 15em;">
+      <label>Datum</label>
+      <date-input-field 
+        v-bind:day="date.day"
+        v-bind:month="date.month"
+        v-bind:year="date.year"
+        v-on:change-day="$emit('change-day', {index: index,  value: $event})"
+        v-on:change-month="$emit('change-month', {index: index,  value: $event})"
+        v-on:change-year="$emit('change-year', {index: index,  value: $event})"
+      ></date-input-field>
     </div>
     
     <div class="w3-col" style="width: 9em;">
@@ -88,6 +80,168 @@ Vue.component('date-input', {
   </div> 
 `,
 });
+
+Vue.component('date-input-field', {
+  props: ['day', 'month', 'year'],
+  template: `
+    <div class="custom-input" v-bind:class="{'custom-input--focused':focused}"
+      @click.self="onClick">
+        <input class="custom-input__input" type="text" style="text-align: right;"
+        @focus="focusDay" @blur="blurDay"
+        v-bind:value="day" ref="dayInput" @input.prevent="changeDay">
+        <span class="custom-input__colon">/</span>
+        <input class="custom-input__input" type="text" style="text-align: center;"
+        @focus="focusMonth" @blur="blurMonth" @input.prevent="changeMonth"
+        v-bind:value="month" ref="monthInput">
+        <span class="custom-input__colon">/</span>
+        <input class="custom-input__input custom-input__input--wide" 
+        type="text" style="text-align: left;"
+        @focus="focusYear" @blur="blurYear" @input.prevent="changeYear"
+        v-bind:value="year" ref="yearInput">
+    </div>
+  `,
+  data: function() { return {
+    focused: false,
+    tempDay: this.day,
+    tempMonth: this.month,
+    tempYear: this.year,
+  }; },
+  methods: {
+    onClick: function(e){
+      this.$refs.dayInput.focus();
+    },
+    changeDay: function(e){
+      let val = e.target.value;
+      if (val.length >= 2) {
+        this.$refs.monthInput.focus();
+        val = val.slice(0, 2);
+        this.$emit('change-day', val);
+      }
+      this.tempDay = val;
+    },
+    focusDay: function(e){
+      this.focused = true;
+      this.$refs.dayInput.select();
+    },
+    blurDay: function(e){
+      this.focused = false;
+      this.$emit(
+        'change-day', 
+        moment().date(this.tempDay).format("DD")
+      )
+    },
+    changeMonth: function(e){
+      let val = e.target.value;
+      if (val.length >= 2) {
+        this.$refs.yearInput.focus();
+        val = val.slice(0, 2);
+        this.$emit('change-month', val);
+      }
+      this.tempMonth = val;
+    },
+    focusMonth: function(e){
+      this.focused = true;
+      this.$refs.monthInput.select();
+    },
+    blurMonth: function(e){
+      this.focused = false;
+      this.$emit(
+        'change-month', 
+        moment().month(this.tempMonth -1).format("MM")
+      )
+    },
+    changeYear: function(e){
+      let val = e.target.value;
+      if (val.length >= 4) {
+        //this.$refs.yearInput.blur();
+        val = val.slice(0, 4);
+        this.$emit('change-year', val);
+      }
+      this.tempYear = val;
+    },
+    focusYear: function(e){
+      this.focused = true;
+      this.$refs.yearInput.select();
+    },
+    blurYear: function(e){
+      this.focused = false;
+      this.$emit(
+        'change-year', 
+        moment().year(this.tempYear).format("YYYY")
+      )
+    },
+  },
+});
+
+Vue.component('time-input', {
+  template: `
+  <div class="custom-input" v-bind:class="{'custom-input--focused':focused}"
+    @click.self="onClick">
+      <input class="custom-input__input" type="text" style="text-align: right;"
+      @focus="focusHour" @blur="blurHour"
+      v-bind:value="hour" ref="hourInput" @input.prevent="changeHour">
+      <span class="custom-input__colon">:</span>
+      <input class="custom-input__input" type="text" 
+      style="text-align: left;"
+      @focus="focusMin" @blur="blurMin" @input.prevent="changeMin"
+      v-bind:value="min" ref="minInput">
+  </div>
+  `,
+  props: ['hour', 'min'],
+  data: function() { return {
+    focused: false,
+    tempHour: this.hour,
+    tempMin: this.min,
+  }; },
+  computed: {
+  },
+  methods: {
+    changeHour: function(e) {
+      let val = e.target.value;
+      if (val.length >= 2) {
+        this.$refs.minInput.focus();
+        val = val.slice(0, 2);
+        this.$emit('change-hour', val);
+      }
+      this.tempHour = val;
+    },
+    changeMin: function(e) {
+      let val = e.target.value;
+      if (val.length >= 2) {
+        //this.$refs.minInput.blur();
+        val = val.slice(0, 2);
+        this.$emit('change-min', val);
+      }
+      this.tempMin = val;
+    },
+    blurHour: function(){
+      this.focused = false;
+      this.$emit(
+        'change-hour',
+        moment().hour(Number(this.tempHour)).format("HH")
+      );
+    },
+    blurMin: function(){
+      this.focused = false;
+      this.$emit(
+        'change-min',
+        moment().minute(Number(this.tempMin)).format("mm")
+      );
+    },
+    focusMin: function(e) {
+      this.focused = true;
+      e.target.select();
+    },
+    focusHour: function(e) {
+      this.focused = true;
+      e.target.select();
+    },
+    onClick: function(e) {
+      this.$refs.hourInput.focus();
+    }
+  },
+
+})
 
 Vue.component('location-input', {
   props: ['nameLabel', 'index', 'location', 'startMinLabel', 'startHourLabel', 'endMinLabel', 'endHourLabel', 'cityLabel', 'addressLabel'],
@@ -189,74 +343,7 @@ Vue.component('form-input', {
   `,
 });
 
-Vue.component('time-input', {
-  template: `
-  <div class="time-input" v-bind:class="{'time-input--focused':focused}"
-    @click.self="onClick">
-      <input class="time-input__input" type="text" style="text-align: right;"
-      @focus="focusHour" @blur="blurHour"
-      v-bind:value="hour" ref="hourInput" @input.prevent="changeHour">
-      <span class="time-input__colon">:</span>
-      <input class="time-input__input" type="text" style="text-align: left;"
-      @focus="focusMin" @blur="blurMin" @input.prevent="changeMin"
-      v-bind:value="min" ref="minInput">
-  </div>
-  `,
-  props: ['hour', 'min'],
-  data: function() { return {
-    focused: false,
-    tempHour: 0,
-    tempMin: 0,
-  }; },
-  computed: {
-  },
-  methods: {
-    changeHour: function(e) {
-      let val = e.target.value;
-      if (val.length >= 2) {
-        this.$refs.minInput.focus();
-        val = val.slice(0, 2);
-        this.$emit('change-hour', val);
-      }
-      this.tempHour = val;
-    },
-    changeMin: function(e) {
-      let val = e.target.value;
-      if (val.length >= 2) {
-        this.$refs.minInput.blur();
-        val = val.slice(0, 2);
-        this.$emit('change-min', val);
-      }
-      this.tempMin = val;
-    },
-    blurHour: function(){
-      this.focused = false;
-      this.$emit(
-        'change-hour',
-        moment().hour(Number(this.tempHour)).format("HH")
-      );
-    },
-    blurMin: function(){
-      this.focused = false;
-      this.$emit(
-        'change-min',
-        moment().minute(Number(this.tempMin)).format("mm")
-      );
-    },
-    focusMin: function(e) {
-      this.focused = true;
-      e.target.select();
-    },
-    focusHour: function(e) {
-      this.focused = true;
-      e.target.select();
-    },
-    onClick: function(e) {
-      this.$refs.hourInput.focus();
-    }
-  },
 
-})
 
 const app = new Vue({
   el: '#event-metabox',
@@ -450,21 +537,15 @@ const app = new Vue({
     },
 
     changeDateMonth: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 1 ? 12 : data.value;
-      data.value = data.value > 12 ? 1 : data.value;
+      data.value = data.value;
       this.dates[data.index].month = data.value;
     },
     changeDateDay: function(data) {
-      data.value = Number(data.value);
-      data.value = data.value < 1 ? 31 : data.value;
-      data.value = data.value > 31 ? 1 : data.value;
+      data.value = data.value;
       this.dates[data.index].day = data.value;
     },
     changeDateYear: function(data) {
-      data.value = Number(data.value);
-      const date = new Date();
-      data.value = data.value < date.getFullYear() ? date.getFullYear() : data.value;
+      data.value = data.value;
       this.dates[data.index].year = data.value;
     },
 
