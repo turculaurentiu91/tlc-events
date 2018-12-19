@@ -150,6 +150,9 @@ class EventMetaBox {
                 v-on:change-end-min="changeLocEndMin"
                 v-on:checked="locationCheck"
                 v-on:delete-location="deleteLocation"
+                v-bind:dragging="locDragging"
+                v-on:dragging="locDragging = $event"
+                v-on:drop="locationDrop"              
               >
               
               </location-input>

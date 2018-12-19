@@ -244,76 +244,113 @@ Vue.component('time-input', {
 })
 
 Vue.component('location-input', {
-  props: ['nameLabel', 'index', 'location', 'customTime', 'cityLabel', 'addressLabel'],
+  props: ['nameLabel', 'index', 'location', 'customTime', 'cityLabel', 'addressLabel', 'dragging'],
+  data: function() { return {
+    dragged: false,
+    dragover: false,
+  }; },
+  methods: {
+    handleDragstart: function(e) {
+      this.dragged = true;
+      e.dataTransfer.setData('text/plain', this.index);
+      //this.$emit('dragging', true);
+    },
+    handleDragend: function(e) {
+      this.dragged = false;
+    },
+    handleDragover: function(e) {
+      this.dragover = true;
+    },
+    handleDrop: function(e) {
+      this.dragover = false;
+      this.$emit('dragging', false);
+      this.$emit('drop', {
+        dragIndex: Number(e.dataTransfer.getData('text/plain')),
+        dropIndex: Number(this.index),
+        dropPos: Number(this.location.position),
+      });
+    }
+  },
   template: `
-  <div class="w3-padding w3-padding-24" v-bind:class="{\'w3-light-gray\' : !(index % 2)}">
-    <div class="w3-row-padding">
-      <div class="w3-col" style="width: 20em;">
-        <label>{{nameLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.name" class="w3-input w3-border" v-bind:placeholder="nameLabel"
-          @input="$emit(\'change-name\', {index: index, value: $event.target.value})"
-        >
-      </div>
+  <div v-on:dragstart="handleDragstart" v-on:drop="handleDrop"
+  draggable="true" v-on:dragover.prevent="handleDragover" 
+  v-show="!dragged" v-on:dragend="handleDragend"
+  v-on:dragleave.self="dragover = false">
 
-      <div class="w3-col" style="width: 15em;">
-        <label>{{cityLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.city" class="w3-input w3-border" v-bind:placeholder="cityLabel"
-          @input="$emit(\'change-city\', {index: index, value: $event.target.value})"
-        >
-      </div>
+    <div class="form-fields-dragover" v-show="dragover"
+    v-on:dragleave.self="dragover = false">&nbsp;</div>
 
-      <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
-        <label>Beginnend bij</label>
-        <time-input
-          v-bind:hour="location.startHour"
-          v-bind:min="location.startMin"
-          v-on:change-hour="$emit('change-start-hour', {index: index,  value: $event})"
-          v-on:change-min="$emit('change-start-min', {index: index,  value: $event})"
-        ></time-input>
-      </div>
+    <div class="w3-padding w3-padding-24" v-bind:class="{\'w3-light-gray\' : !(index % 2)}"
+    v-on:dragleave.self="dragover = false">
 
-      <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
-        <label>Eindigend op</label>
-        <time-input
-          v-bind:hour="location.endHour"
-          v-bind:min="location.endMin"
-          v-on:change-hour="$emit('change-end-hour', {index: index,  value: $event})"
-          v-on:change-min="$emit('change-end-min', {index: index,  value: $event})"
-        ></time-input>
-      </div>
+      <div class="w3-row-padding">
+        <div class="w3-col" style="width: 20em;">
+          <label>{{nameLabel}}</label>
+          <input 
+            type="text" v-bind:value="location.name" class="w3-input w3-border" v-bind:placeholder="nameLabel"
+            @input="$emit(\'change-name\', {index: index, value: $event.target.value})"
+          >
+        </div>
 
-      <div class="w3-col" style="width: 5em;">
-        <label>Positie</label>
-        <input 
-          type="text" v-bind:id="'tlc-loc-pos-' + location.id" v-bind:value="location.position" class="w3-input w3-border" placeholder="Positie"
-          @input="$emit(\'change-position\', {index: index, value: $event.target.value})"
-        >
-      </div>
+        <div class="w3-col" style="width: 15em;">
+          <label>{{cityLabel}}</label>
+          <input 
+            type="text" v-bind:value="location.city" class="w3-input w3-border" v-bind:placeholder="cityLabel"
+            @input="$emit(\'change-city\', {index: index, value: $event.target.value})"
+          >
+        </div>
 
-      <div class="w3-rest w3-right-align">
-        <button 
-          class="w3-button w3-red w3-round w3-margin-top" 
-          @click.prevent="$emit(\'delete-location\', index)"
-        >
-          <span class="dashicons dashicons-no"></span>
-        </button>
+        <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
+          <label>Beginnend bij</label>
+          <time-input
+            v-bind:hour="location.startHour"
+            v-bind:min="location.startMin"
+            v-on:change-hour="$emit('change-start-hour', {index: index,  value: $event})"
+            v-on:change-min="$emit('change-start-min', {index: index,  value: $event})"
+          ></time-input>
+        </div>
+
+        <div class="w3-col" style="width: 9em;" v-if="Number(customTime)">
+          <label>Eindigend op</label>
+          <time-input
+            v-bind:hour="location.endHour"
+            v-bind:min="location.endMin"
+            v-on:change-hour="$emit('change-end-hour', {index: index,  value: $event})"
+            v-on:change-min="$emit('change-end-min', {index: index,  value: $event})"
+          ></time-input>
+        </div>
+
+        <div class="w3-col" style="width: 5em;">
+          <label>Positie</label>
+          <input 
+            type="text" v-bind:id="'tlc-loc-pos-' + location.id" v-bind:value="location.position" class="w3-input w3-border" placeholder="Positie"
+            @input="$emit(\'change-position\', {index: index, value: $event.target.value})"
+          >
+        </div>
+
+        <div class="w3-rest w3-right-align">
+          <button 
+            class="w3-button w3-red w3-round w3-margin-top" 
+            @click.prevent="$emit(\'delete-location\', index)"
+          >
+            <span class="dashicons dashicons-no"></span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="w3-row-padding w3-padding">
-      <div class="w3-rest">
-        <label>{{addressLabel}}</label>
-        <input 
-          type="text" v-bind:value="location.address" class="w3-input w3-border" v-bind:placeholder="addressLabel"
-          @input="$emit(\'change-address\', {index: index, value: $event.target.value})"
-        > 
+      <div class="w3-row-padding w3-padding" v-show="!dragging">
+        <div class="w3-rest">
+          <label>{{addressLabel}}</label>
+          <input 
+            type="text" v-bind:value="location.address" class="w3-input w3-border" v-bind:placeholder="addressLabel"
+            @input="$emit(\'change-address\', {index: index, value: $event.target.value})"
+          > 
+        </div>
       </div>
-    </div>
-    <div class="w3-panel">
-      <input class="w3-check" type="checkbox" @click="$emit('checked', {index: index, value: $event.target.checked})" 
-      v-bind:id="'loc-checkbox-'+index" v-bind:checked="Number(customTime)">
-      <label v-bind:for="'loc-checkbox-'+index">Aangepaste tijden</label>
+      <div class="w3-panel" v-show="!dragging">
+        <input class="w3-check" type="checkbox" @click="$emit('checked', {index: index, value: $event.target.checked})" 
+        v-bind:id="'loc-checkbox-'+index" v-bind:checked="Number(customTime)">
+        <label v-bind:for="'loc-checkbox-'+index">Aangepaste tijden</label>
+      </div>
     </div>
   </div>
   `,
@@ -379,6 +416,7 @@ const app = new Vue({
   el: '#event-metabox',
   data: {
     page: 'dates',
+    locDragging: false,
     dates: rawDates === "" ? [{
       day: new Date().getDate(),
       month: new Date().getMonth() +1,
@@ -420,6 +458,19 @@ const app = new Vue({
   },
 
   methods: {
+    locationDrop: function(e) {
+      const newLoc = [ ...this.locations ];
+      newLoc[e.dragIndex].position = e.dropPos;
+
+      for(let i = e.dropIndex; i < newLoc.length; i++){
+        if (i !== e.dragIndex) {
+          newLoc[i].position++;
+        }
+      }
+
+      this.dates[this.locationsSelectedDate].locations = 
+        newLoc.sort((a,b) => a.position - b.position);
+    },
     formFieldDrop: function(e) {
       e.dragIndex = Number(e.dragIndex);
       const newFormFields = [...this.formFields];
