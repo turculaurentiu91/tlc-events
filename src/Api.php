@@ -134,17 +134,6 @@ class Api
         $subscription[$field['slug']] = $req_data[$field['slug']];
       }
 
-      if (isset($location['subscriptions']))
-      {
-        foreach($location['subscriptions'] as $sub)
-        {
-          if ($sub['e_mailadres'] == $req_data['e_mailadres'])
-          {
-            return new \WP_Error('already_subscribed', 'Already Subscribed');
-          }
-        }
-      }
-
       $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']]['subscriptions'][] = $subscription;
       $encodedDates = base64_encode(json_encode($eventDates));
       update_post_meta($req_data['event_id'], 'tlc-dates', $encodedDates);
