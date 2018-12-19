@@ -253,7 +253,7 @@ Vue.component('location-input', {
     handleDragstart: function(e) {
       this.dragged = true;
       e.dataTransfer.setData('text/plain', this.index);
-      this.$emit('dragging', true);
+      //this.$emit('dragging', true);
     },
     handleDragend: function(e) {
       this.dragged = false;
