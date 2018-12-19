@@ -116,10 +116,27 @@ if (isset($_GET['unsubscribe'])) {
             <span class="dashicons dashicons-warning w3-xxlarge" style="margin-right: 20px;" v-if="error"></span>
             {{message}}</h3>
           </div>
-          <button @click.prevent="closeMessageModal" 
-            class="w3-button w3-white w3-text-red w3-margin-top w3-border w3-border-red w3-hover-red w3-bar w3-round">
+          <button @click.prevent="closeMessageModal" v-if="error"
+            class="w3-button w3-white w3-text-red w3-margin-top 
+            w3-border w3-border-red w3-hover-red w3-bar w3-round"
+          >
             <?= __("Close", "tlc-events") ?>
           </button>
+          <div class="w3-bar" v-if="!error">
+            <button @click.prevent="closeMessageModal" 
+              class="w3-button w3-white w3-text-red w3-margin-top 
+              w3-border w3-border-red w3-hover-red w3-bar-item w3-round"
+              style="width: 42%; margin:0 2.5% 0 5%;" >
+              Nog iemand aanmelden
+            </button>
+            <a href="<?= get_site_url() ?>"
+              class="w3-button w3-white w3-text-red w3-margin-top 
+              w3-border w3-border-red w3-hover-red w3-bar-item w3-round"
+              style="width: 42%; margin:0 5% 0 2.5%;">
+              <?= __("Close", "tlc-events") ?>
+            </a>
+          </div>
+          
         </div>
       </div>
     </div>
@@ -178,12 +195,6 @@ var app = new Vue({
           this.displaySubscriptionForm = false;
           this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
           this.subscribing = false;
-          for (data in this.formData) {
-            this.formData[data] = '';
-          }
-
-        } else if (res.code == 'already_subscribed') {
-          throw new Error('already_subscribed');
         } else {
           throw new Error(res.code);
         }
@@ -191,18 +202,21 @@ var app = new Vue({
       .catch(err => {
         this.displaySubscriptionForm = false;
         this.subscribing = false;
-        if (err.message == 'already_subscribed') {
-          this.displayMessage('<?= __("You have already subscribed for this event!") ?>', true);
-        } else {
-          console.error(err);
-          this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
-        }
+        console.error(err);
+        this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
       });
     },
 
     closeMessageModal: function(){
       this.message = '';
       this.displayMessageModal = false;
+      if (!this.error) {
+        for (data in this.formData) {
+          this.formData[data] = '';
+        }
+      }
+      this.displaySubscriptionForm = true;
+      
     },
 
     subscribeClick: function(dateIndex, locIndex) {
