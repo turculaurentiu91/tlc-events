@@ -24,3 +24,9 @@ v 1.0.1
  v1.0.6
   - on backend edit event, on locations, added drag and drop functionality and remooved
   position field, now position is managed by drag and drop
+
+v1.0.7
+  - Modified initial form field E-mail with E-mailadres and modified all the server side checks
+  to match the email field change.
+  - Removed check for same email subscriptions, now multiple subscriptions with the same email
+  are allowed

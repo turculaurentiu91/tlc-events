@@ -198,20 +198,14 @@ var app = new Vue({
           _this.displaySubscriptionForm = false;
           _this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
           _this.subscribing = false;
-        } else if (res.code == 'already_subscribed') {
-          throw new Error('already_subscribed');
         } else {
           throw new Error(res.code);
         }
       }).catch(function (err) {
         _this.displaySubscriptionForm = false;
         _this.subscribing = false;
-        if (err.message == 'already_subscribed') {
-          _this.displayMessage('<?= __("You have already subscribed for this event!") ?>', true);
-        } else {
           console.error(err);
           _this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
-        }
       });
     },
 
