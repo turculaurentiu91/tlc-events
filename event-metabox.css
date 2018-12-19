@@ -67,6 +67,12 @@ input.custom-input__input:focus {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba(30, 140, 190, .8);
 }
-.custom-input__colon {
 
+.form-fields-dragover {
+  height: 80px;
+  background-color: #ddd;
+  border: 2px dashed #aaa;
+  box-sizing: border-box;
+  margin: 20px;
+  transition: 1s all;
 }

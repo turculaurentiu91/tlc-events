@@ -322,30 +322,55 @@ Vue.component('location-input', {
 Vue.component('form-input', {
   props: ['index', 'label', 'value', 'slug', 'position'],
   template: `
-  <div class="w3-padding w3-padding-24" v-bind:class="{\'w3-light-gray\' : !(index % 2)}">
-    <div class="w3-row-padding">
-      <div class="w3-col l1 w3-padding"><label>{{label}}</label></div>
-      <div class="w3-col l3">
-        <input class="w3-input w3-border" type="text" v-bind:value="value" 
-        v-on:input="$emit('input', {index: index, value: $event.target.value })" >
-      </div>
-      <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
-      <div class="w3-col l1 w3-padding"><label>Positie</label></div>
-      <div class="w3-col l2">
-        <input class="w3-input w3-border" type="text" v-bind:value="position" v-bind:id="'tlc-form-fields-'+slug"
-        v-on:input="$emit('input-position', {index: index, value: $event.target.value })" >
-      </div>
-      <div class="w3-rest w3-right-align">
-        <button 
-          class="w3-button w3-red w3-round" 
-          @click.prevent="$emit(\'delete\', index)"
-        >
-          <span class="dashicons dashicons-no"></span>
-        </button>
+  <div v-show="!dragged" draggable="true" 
+  v-on:dragover.prevent="draggedOver = true"
+  v-on:dragstart="handleDrag"
+  v-on:dragend="dragged = false" v-on:drop="handleDrop">
+
+    <div v-if="draggedOver" v-on:dragleave.self="draggedOver = false" 
+    class="form-fields-dragover">&nbsp;</div>
+
+    <div class="w3-padding w3-padding-24" v-on:dragleave.self="draggedOver = false"
+    v-bind:class="{\'w3-light-gray\' : !(index % 2)}">
+
+      <div class="w3-row-padding">
+        <div class="w3-col l1 w3-padding"><label>{{label}}</label></div>
+        <div class="w3-col l3">
+          <input class="w3-input w3-border" type="text" v-bind:value="value" 
+          v-on:input="$emit('input', {index: index, value: $event.target.value })" >
+        </div>
+        <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
+        <div class="w3-rest w3-right-align">
+          <button 
+            class="w3-button w3-red w3-round" 
+            @click.prevent="$emit(\'delete\', index)"
+          >
+            <span class="dashicons dashicons-no"></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
   `,
+  data: function() { return { 
+    draggedOver: false,
+    dragged: false,
+  }; },
+  methods: {
+    handleDrag: function(e) {
+      this.dragged = true;
+      e.dataTransfer.setData('text/plain', this.index);
+    },
+    handleDrop: function(e) {
+      this.draggedOver=false;
+      const draggedIndex = e.dataTransfer.getData('text/plain');
+      this.$emit('drop', {
+        dragIndex: draggedIndex, 
+        dropPos: this.position,
+        dropIndex: this.index,
+      });
+    },
+  },
 });
 
 
@@ -395,6 +420,20 @@ const app = new Vue({
   },
 
   methods: {
+    formFieldDrop: function(e) {
+      e.dragIndex = Number(e.dragIndex);
+      const newFormFields = [...this.formFields];
+      newFormFields[e.dragIndex].position = e.dropPos;
+
+      for (let i = e.dropIndex; i < newFormFields.length ; i++ ) {
+        if (i !== e.dragIndex) {
+          newFormFields[i].position++;
+        }
+      }
+
+      this.formFields = newFormFields.sort((a,b) => a.position - b.position)
+    },
+
     exportToCsv: function() {
       var a = window.document.createElement('a');
     
@@ -483,15 +522,7 @@ const app = new Vue({
       this.dates[this.locationsSelectedDate].locations[data.index].city = data.value;
     },
 
-    changeLocPosition: function(data) {
-      this.dates[this.locationsSelectedDate].locations[data.index].position = Number(data.value);
-      this.dates[this.locationsSelectedDate].locations = 
-        this.dates[this.locationsSelectedDate].locations.sort((a, b) => a.position - b.position);
-      jQuery(
-        '#tlc-loc-pos-' + 
-        this.dates[this.locationsSelectedDate].locations[data.index].id
-      ).focus();
-    },
+
 
     changeName: function(data) {
       this.dates[this.locationsSelectedDate].locations[data.index].name = data.value;

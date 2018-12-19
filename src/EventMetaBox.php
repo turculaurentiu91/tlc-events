@@ -148,7 +148,6 @@ class EventMetaBox {
                 v-on:change-start-min="changeLocStartMin"
                 v-on:change-end-hour="changeLocEndHour"
                 v-on:change-end-min="changeLocEndMin"
-                v-on:change-position="changeLocPosition"
                 v-on:checked="locationCheck"
                 v-on:delete-location="deleteLocation"
               >
@@ -186,6 +185,7 @@ class EventMetaBox {
               v-on:input-position="changeFormFieldsPos"
               v-bind:slug="field.slug"
               v-bind:position="field.position"
+              v-on:drop="formFieldDrop"
             >
             </form-input>
           </div>

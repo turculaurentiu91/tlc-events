@@ -16,3 +16,7 @@ v 1.0.1
  v1.0.4
   - on backend edit event, added a checkbox on location, to use the date time or to insert a custom
   time
+
+ v11.0.5
+  - on backemd edit event, on form fields, added drag and drop functionality and removed
+  position field, now position is managed by drag and drop
