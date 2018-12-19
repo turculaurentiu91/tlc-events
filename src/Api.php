@@ -134,6 +134,9 @@ class Api
         $subscription[$field['slug']] = $req_data[$field['slug']];
       }
 
+      $subscription['geregistreerd_op'] = current_time("d-m-Y H:i");
+      $subscription['verwijderd_op'] = " ";
+
       $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']]['subscriptions'][] = $subscription;
       $encodedDates = base64_encode(json_encode($eventDates));
       update_post_meta($req_data['event_id'], 'tlc-dates', $encodedDates);

@@ -30,3 +30,11 @@ v1.0.7
   to match the email field change.
   - Removed check for same email subscriptions, now multiple subscriptions with the same email
   are allowed
+
+v1.0.8
+  - On the single event page, on the message modal, made the cancel button to point to the subscription form
+  - On the single event page, on the message modal, added another button to point to the home page
+  - On the single event page, on the message modal, modified the cancel button, to show the modal form with empty fields when error
+
+v1.0.9
+  - Register subscription timestamp on subscribtion
