@@ -1,6 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
 integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <?php
 if (isset($_GET['unsubscribe'])) {
@@ -16,7 +17,7 @@ if (isset($_GET['unsubscribe'])) {
     }
   }
 
-  if (!$date_key) { wp_die(__("Invalid unsubscribe link", "tlc-events")); }
+  if ($date_key === null) { wp_die(__("Invalid unsubscribe link", "tlc-events")); }
 
   foreach($postDates[$date_key]['locations'] as $key => $value)
   {
@@ -26,11 +27,11 @@ if (isset($_GET['unsubscribe'])) {
     }
   }
 
-  if (!$loc_key) { wp_die(__("Invalid unsubscribe link", "tlc-events")); }
+  if ($loc_key === null) { wp_die(__("Invalid unsubscribe link", "tlc-events")); }
   
   foreach($postDates[$date_key]['locations'][$loc_key]['subscriptions'] as $key => $val)
   {
-    if ($val['email'] == $unsub_data['email'])
+    if ($val['e_mailadres'] == $unsub_data['email'])
     {
       unset($postDates[$date_key]['locations'][$loc_key]['subscriptions'][$key]);
     }
@@ -39,7 +40,7 @@ if (isset($_GET['unsubscribe'])) {
 
 ?> 
 <script>
-  var tlc_msg = "<?= __("You have sucessifully unsubscribed from this event") ?>";
+  var tlc_msg = "<?= __('You have sucessifully unsubscribed from this event') ?>";
 </script>
 <?php
 } else {
@@ -240,7 +241,7 @@ var app = new Vue({
   computed: {
     isEmailPresent: function isEmailPresent() {
       return -1 !== this.formFields.findIndex(function (field) {
-        return field.slug === 'email';
+        return field.slug === 'e_mailadres';
       });
     },
     selectedDate: function selectedDate() {

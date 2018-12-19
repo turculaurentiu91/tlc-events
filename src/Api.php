@@ -138,7 +138,7 @@ class Api
       {
         foreach($location['subscriptions'] as $sub)
         {
-          if ($sub['email'] == $req_data['email'])
+          if ($sub['e_mailadres'] == $req_data['e_mailadres'])
           {
             return new \WP_Error('already_subscribed', 'Already Subscribed');
           }
@@ -151,7 +151,7 @@ class Api
 
       $unsubscribeData = base64_encode(json_encode(array(
         'event_id' => $req_data['event_id'],
-        'email' => $req_data['email'],
+        'email' => $req_data['e_mailadres'],
         'date_id' => $date['id'],
         'location_id' => $location['id'],
       )));
@@ -162,14 +162,14 @@ class Api
         $unsubscribeData;
 
       $this->notify_admin(
-        $req_data['email'],
+        $req_data['e_mailadres'],
         get_post($req_data['event_id'])->post_title,
         $eventDates[$req_data['date_id']],
         $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']]
       );
 
       $this->notify_sub(array(
-        'email' => $req_data['email'],
+        'email' => $req_data['e_mailadres'],
         'date' => $eventDates[$req_data['date_id']],
         'event' => get_post($req_data['event_id'])->post_title,
         'city' => $location['city'],

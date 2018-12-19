@@ -1,5 +1,5 @@
 function generateSlug(string) {
-  return string.toLowerCase().replace(" ", "_").replace(/[^a-zA-Z-_]/g, "");
+  return string.toLowerCase().replace(" ", "_").replace("-","_").replace(/[^a-zA-Z-_]/g, "");
 }
 
 var ID = function () {
@@ -434,7 +434,7 @@ const app = new Vue({
         {value: 'Voornaam', slug: generateSlug('Voornaam'), position: 2 },
         {value: 'Tussenvoegsels', slug: generateSlug('Tussenvoegsels'), position: 3 },
         {value: 'Achternaam', slug: generateSlug('Achternaam'), position: 4 },
-        {value: 'E-mail', slug: generateSlug('E-mail'), position: 5 },
+        {value: 'E-mailadres', slug: generateSlug('E-mailadres'), position: 5 },
         {value: 'Telefoonnummer', slug: generateSlug('Telefoonnummer'), position: 6 },
       ] : 
       JSON.parse(window.atob(rawFormFields)),
