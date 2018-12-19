@@ -57,7 +57,7 @@ if (isset($_GET['unsubscribe'])) {
   <h3><?= __("Dates and Locations", "tlc-events") ?>:</h3>
   <div class="hop-events-single" v-for="(date, dateIndex) in dates">
     <div v-for="(loc, locIndex) in date.locations" class="hop-events-data">
-    	<div class="hop-events-meta"><span class="events">{{loc.name}} | {{date.day}}-{{date.month}}-{{date.year}} | {{transTime(loc.startHour, loc.startMin)}} - {{transTime(loc.endHour, loc.endMin)}}</span></div>
+    	<div class="hop-events-meta"><span class="events">{{loc.name}} | {{date.day}}-{{date.month}}-{{date.year}} | {{loc.startHour + ':' + loc.startMin}} - {{loc.endHour + ':' + loc.endMin}}</span></div>
     	<div class="hop-events-button"><button class="default-btn-shortcode dt-btn dt-btn-m" @click="subscribeClick(dateIndex, locIndex)" v-if="isEmailPresent"><b><?= __("Subscribe", "tlc-events") ?></b></button></div>
 		<div class="hop-events-info"><span class="events"><?= __("Address", "tlc-events") ?>: </span>{{loc.address}}, {{loc.city}}</div>
   </div></ hr>
@@ -96,7 +96,7 @@ if (isset($_GET['unsubscribe'])) {
         <div class="w3-panel">
           <h4><b>{{selectedDate.day}}-{{selectedDate.month}}-{{selectedDate.year}}</b></h4><hr>
           <p> <b><?= __("City", "tlc-events") ?>:</b> {{selectedLocation.city}} | 
-            <b><?= __("starting at", "tlc-events") ?>:</b> {{transTime(selectedLocation.startHour, selectedLocation.startMin)}} </p>
+            <b><?= __("starting at", "tlc-events") ?>:</b> {{selectedLocation.startHour + ':' + selectedLocation.startMin}} </p>
           <p> <b><?= __("Address", "tlc-events") ?>:</b> {{selectedLocation.address}} </p> <hr><br>
         </div>
       </div>
@@ -129,130 +129,109 @@ if (isset($_GET['unsubscribe'])) {
 
 
 <script>
-'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var app = new Vue({
   el: '#tlc-events',
-  created: function(){
-    this.dates = this.dates.map(date => {
-      const locations = date.locations.sort((a,b) => a.position - b.position);
-      return {
-        ...date,
-        locations
-      };
-    });
-
-    this.formFields = this.formFields.sort((a,b) => a.locations - b.locations);
-  },
   data: {
-    dates: rawDates == "" ? [] : JSON.parse(window.atob(rawDates)).filter(function (date) {
-      return !isDateOutdated(date) && date.locations.length > 0;
-    }),
+    dates: rawDates == "" ? [] : JSON.parse(window.atob(rawDates)).filter(
+      function(date){ return !isDateOutdated(date) && date.locations.length > 0 }),
     formFields: rawFormFields == '' ? [] : JSON.parse(window.atob(rawFormFields)),
     formData: {},
     displaySubscriptionForm: false,
-    displayMessageModal: tlc_msg !== undefined ? true : false,
+    displayMessageModal: tlc_msg ? true : false,
     selectedDateIndex: 0,
     selectedLocationIndex: 0,
-    message: tlc_msg !== undefined ? tlc_msg : '',
+    message: tlc_msg ? tlc_msg : '',
     error: false,
-    subscribing: false
+    subscribing: false,
   },
-  created: function created() {
-    this.formFields.forEach(function (field) {
+  created: function() {
+    this.formFields.forEach(function(field) {
       this.$set(this.formData, field.slug, '');
     }, this);
   },
-
   methods: {
-    displayMessage: function displayMessage(message, error) {
-      error = (typeof error === 'undefined' ? 'undefined' : _typeof(error)) === undefined ? false : error;
+    displayMessage: function(message, error) {
+      error = typeof error === undefined ? false : error;
       this.message = message;
       this.error = error;
       this.displayMessageModal = true;
     },
 
-    subscribe: function subscribe() {
-      var _this = this;
-
+    subscribe: function() {
       this.subscribing = true;
-      var reqData = JSON.stringify(_extends({
+      var reqData = JSON.stringify({
         event_id: "<?= $post->ID ?>",
         date_id: this.selectedDateIndex,
-        location_id: this.selectedLocationIndex
-      }, this.formData));
+        location_id: this.selectedLocationIndex,
+        ...this.formData,
+      });
 
       fetch('<?= get_site_url() ?>/wp-json/tlc-events/subscribe', {
         method: 'POST',
         cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: reqData
-      }).then(function (res) {
-        return res.json();
-      }).then(function (res) {
+        headers: { 'Content-Type': 'application/json; charset=utf-8', },
+        body: reqData,
+      })
+      .then(res => res.json())
+      .then(res => {
         if (res.status === 'success') {
-          _this.displaySubscriptionForm = false;
-          _this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
-          _this.subscribing = false;
+          this.displaySubscriptionForm = false;
+          this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
+          this.subscribing = false;
+          for (data in this.formData) {
+            this.formData[data] = '';
+          }
+
+        } else if (res.code == 'already_subscribed') {
+          throw new Error('already_subscribed');
         } else {
           throw new Error(res.code);
         }
-      }).catch(function (err) {
-        _this.displaySubscriptionForm = false;
-        _this.subscribing = false;
+      })
+      .catch(err => {
+        this.displaySubscriptionForm = false;
+        this.subscribing = false;
+        if (err.message == 'already_subscribed') {
+          this.displayMessage('<?= __("You have already subscribed for this event!") ?>', true);
+        } else {
           console.error(err);
-          _this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
+          this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
+        }
       });
     },
 
-    closeMessageModal: function closeMessageModal() {
+    closeMessageModal: function(){
       this.message = '';
       this.displayMessageModal = false;
     },
 
-    subscribeClick: function subscribeClick(dateIndex, locIndex) {
+    subscribeClick: function(dateIndex, locIndex) {
       this.displaySubscriptionForm = true;
       this.selectedDateIndex = dateIndex;
       this.selectedLocationIndex = locIndex;
     },
 
-    transTime: function(h, m){
-      const time = moment().hour(Number(h)).minute(Number(m));
-      return time.format("HH:mm");
-    },
-
-    hideSubscriptionForm: function hideSubscriptionForm() {
+    hideSubscriptionForm: function() {
       this.displaySubscriptionForm = false;
-      this.formFields.forEach(function (field) {
+      this.formFields.forEach(function(field){
         this.formData[field] = '';
-      }, this);
-    }
+      }, this)
+    },
   },
   computed: {
-    isEmailPresent: function isEmailPresent() {
-      return -1 !== this.formFields.findIndex(function (field) {
-        return field.slug === 'e_mailadres';
-      });
-    },
-    selectedDate: function selectedDate() {
-      return this.dates[this.selectedDateIndex];
-    },
-    selectedLocation: function selectedLocation() {
-      const loc = this.selectedDate.locations[this.selectedLocationIndex];
-      return loc;
-    }
-  }
+    isEmailPresent: function(){
+      return -1 !== this.formFields.findIndex(function(field) { return field.slug === 'e_mailadres'});
+    }, 
+    selectedDate: function() { return this.dates[this.selectedDateIndex]; },
+    selectedLocation: function() { return this.selectedDate.locations[this.selectedLocationIndex]; },
+  },
 });
 
 function isDateOutdated(date) {
   date.year == Number(date.year);
   date.month == Number(date.month);
   date.day == Number(date.day);
-  var dateMoment = moment().year(date.year).month(date.month - 1).date(date.day);
+  const dateMoment = moment().year(date.year).month(date.month-1).date(date.day);
   return moment().isAfter(dateMoment);
 }
 </script>
