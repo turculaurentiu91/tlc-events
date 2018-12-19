@@ -319,14 +319,14 @@ Vue.component('location-input', {
             v-on:change-min="$emit('change-end-min', {index: index,  value: $event})"
           ></time-input>
         </div>
-
+        <!--
         <div class="w3-col" style="width: 5em;">
           <label>Positie</label>
           <input 
             type="text" v-bind:id="'tlc-loc-pos-' + location.id" v-bind:value="location.position" class="w3-input w3-border" placeholder="Positie"
             @input="$emit(\'change-position\', {index: index, value: $event.target.value})"
           >
-        </div>
+        </div> -->
 
         <div class="w3-rest w3-right-align">
           <button 
