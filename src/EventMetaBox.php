@@ -232,7 +232,7 @@ class EventMetaBox {
             </div>
 
             <div v-if="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions">
-              <table class="w3-table-all w3-margin" style="width: 95%" v-if="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions.length > 0">
+              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions.length > 0">
                 <tr>
                   <th></th>
                   <th v-for="field in formFields">{{field.value}}</th>
