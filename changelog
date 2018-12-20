@@ -49,3 +49,4 @@ v1.1.0
   - Added unsubscribe email template to manage the email template when a user gets unsubscribed from the admin page
   - Now the admin/unsubscribe API Endpoint sends a notification to the user if specified in the POST data as notify: truthy value
   - Added %event_link% in the unsubscribe email template
+  - Added a modal to delete a subscription and use the admin / unsubscribe API ednpoint

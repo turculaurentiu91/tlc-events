@@ -237,9 +237,9 @@ class EventMetaBox {
                   <th></th>
                   <th v-for="(value, key) in subsTable[0]"><span style="display: inline-block">{{key}}</span></th>
                 </tr>
-                <tr v-for="sub in subsTable">
+                <tr v-for="(sub, index) in subsTable">
                   <td style="width: 2em;">
-                    <button @click.prevent="deleteSub(sub)" class="w3-button w3-round w3-text-red">
+                    <button @click.prevent="selectDeleteSub(index)" class="w3-button w3-round w3-text-red">
                       <span class="dashicons dashicons-no"></span>
                     </button>
                   </td>
@@ -271,6 +271,17 @@ class EventMetaBox {
           </div>
         </div>
       </div>
+      <delete-sub
+        v-bind:show="showDeleteModal"
+        api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/admin/unsubscribe" ?>"
+        v-bind:date-id="dates[subsSelectedDate].id"
+        v-bind:location-id="dates[subsSelectedDate].locations[subsSelectedLoc].id"
+        v-bind:subscription-id="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions[subsSelectedSub].id"
+        v-bind:event-id="<?= $post->ID ?>"
+        v-on:close="showDeleteModal = false"
+        v-on:deleted="deleteSub"
+      >
+      </delete-sub>
     </div>
     <script src="<?= plugins_url('papaparse.min.js', dirname(__FILE__)) ?>"></script>
     <script src="<?= plugins_url( 'event-metabox.js', dirname(__FILE__) ) ?>"></script>

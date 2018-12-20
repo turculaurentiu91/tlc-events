@@ -6,6 +6,88 @@ var ID = function () {
   return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+Vue.component('delete-sub', {
+  props: ['dateId', 'locationId', 'eventId', 'subscriptionId', 'show', 'apiEndpoint'],
+  data: function() { return {
+    fetching: "initial",
+
+  }; },
+  methods: {
+    deleteSub: function(notify) {
+      this.fetching = 'fetching';
+      fetch(this.apiEndpoint, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
+        body: JSON.stringify({
+          'date_id': this.dateId,
+          'location_id': this.locationId,
+          'subscription_id': this.subscriptionId,
+          'event_id': this.eventId,
+          'notify': notify,
+        })
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('failed fetching');
+        }
+        return res.json();
+      })
+      .then(res => {
+        this.fetching = "success";
+        this.$emit('deleted', res);
+      })
+      .catch(error => {
+        this.fetching = "error";
+        console.error(error);
+      })
+    },
+    deleteSubNoNotify() {
+      this.deleteSub(undefined);
+    },
+    deleteSubWithNotify() {
+      this.deleteSub(true);
+    },
+    close: function()  {
+      this.fetching = "initial";
+      this.$emit('close', {});
+    }
+  },
+  template: `
+  <div style="display: block; z-index: 1000" v-if="show" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span @click="close" 
+        class="w3-button w3-display-topright">&times;</span>
+        <br>
+        <div class="w3-panel" style="margin-top: 30px;">
+          <div v-if="fetching == 'initial'">
+            <h3 >Wil je een e-mail sturen naar de deelnemer?</h3>
+            <div class="w3-bar">
+              <button class="w3-bar-item w3-button w3-teal" @click.prevent="close" 
+              style="width:33.3%">Annuleren</button>
+
+              <button class="w3-bar-item w3-button w3-red" @click.prevent="deleteSubNoNotify"
+              style="width:33.3%">Nee</button>
+
+              <button class="w3-bar-item w3-button w3-green" @click.prevent="deleteSubWithNotify"
+               style="width:33.3%">Ja</button>
+            </div>
+          </div>
+          <div v-if="fetching != 'initial'">
+              <h3 v-if="fetching == 'fetching'">Het abonnement verwijderen</h3>
+              <h3 v-if="fetching == 'success'">Succesvol verwijderd</h3>
+              <h3 v-if="fetching == 'error'">Fout bij verwijderen van abonnement</h3>
+
+              <button class="w3-button w3-block w3-teal" v-bind:disabled="fetching == 'fetching'"
+              @click.prevent="close">Annuleren</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
+});
+
 Vue.component('nav-link', {
   props: ['active'],
   template: '<a href="#" \
@@ -441,6 +523,8 @@ const app = new Vue({
     locationsSelectedDate: 0,
     subsSelectedDate: 0,
     subsSelectedLoc: 0,
+    subsSelectedSub: 0,
+    showDeleteModal: false,
   },
 
   computed: {
@@ -549,9 +633,9 @@ const app = new Vue({
       jQuery('#tlc-form-fields-' + this.formFields[data.index].slug).focus();
     },
 
-    deleteSub: function(sub){
-      this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc].subscriptions =
-        this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc].subscriptions.filter(s => s !== sub);
+    selectDeleteSub: function(index){
+      this.subsSelectedSub = index;
+      this.showDeleteModal = true;
     },
 
     deleteFormField: function(indexToDelete){
@@ -709,6 +793,11 @@ const app = new Vue({
       }
 
       this.dates = this.dates.filter(function(date, index) {return index !== indexToRemove});
+    },
+    deleteSub(e) {
+      this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc]
+        .subscriptions[this.subsSelectedSub].verwijderd_op = e.verwijderd_op;
+      
     }
   }
 });
