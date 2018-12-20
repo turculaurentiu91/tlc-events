@@ -106,7 +106,7 @@
               height: 300px!important;
             }
           </style>
-          <p>Te gebruiken tags: %location% %city% %date% %start_time% %end_time% %address% %event_title%</p>
+          <p>Te gebruiken tags: %location% %city% %date% %start_time% %end_time% %address% %event_title% %event_link%</p>
         </div>
 
         

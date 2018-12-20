@@ -117,7 +117,7 @@ class Api
         if ($req_data['notify']) {
 
           $find_tags = array('%location%', '%city%', '%date%', '%start_time%', '%end_time%',
-             '%address%', '%event_title%');
+             '%address%', '%event_title%', '%event_link%');
       
           $replace_tags = array(
             $location['name'],
@@ -127,6 +127,7 @@ class Api
             "{$location['endHour']}:{$location['endMin']}",
             $location['address'],
             get_post($req_data['event_id'])->post_title,
+            "<a href=\"". get_post($req_data['event_id'])->guid ."\">Event</a>",
           );
       
           $email = str_replace($find_tags, $replace_tags, get_option('tlc-events-unsub-template'));
