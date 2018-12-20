@@ -43,3 +43,6 @@ v1.0.9
   - made the sidebar smaller
   - On edit event page, on subscription list, edit the table to show the fields as inline block
   - Added a helper class with a random string generator function
+
+v1.1.0
+  - Added API Endpoint for admin to unsubscribe a subscription

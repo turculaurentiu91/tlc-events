@@ -20,8 +20,101 @@ class Api
         'callback' => array($this, 'post_subscription')
       )
     );
+
+    register_rest_route(
+      $namespace,
+      'admin/unsubscribe',
+      array(
+        'methods' => 'POST',
+        'callback' => array($this, 'admin_unsubscribe')
+      )
+    );
   }
 
+  public function admin_unsubscribe($request)
+  {
+    $req_data = $request->get_json_params();
+    //Check if event_id is submitted
+    if (!isset($req_data['event_id']))
+    {
+      return new \WP_Error( 'no_event_id', 'Event Id Missing', array('status' => 400));
+    }
+
+    //check if event_id is valid and get its dates
+    $eventDates = 
+      json_decode(
+        base64_decode(
+          get_post_meta(
+            $req_data['event_id'], 'tlc-dates', true
+          )
+        ), 
+        true
+      );
+    
+      if($eventDates == null) 
+      {
+        return new \WP_Error('invalid_event_id', 'Invalid Event Id', array('status' => 400));
+      }
+
+      //check if date_id and location_id are set
+      if ( !isset($req_data['date_id']) || !isset($req_data['location_id']) )
+      {
+        return new \WP_Error('no_date_location_id', 'No date_id or location_id fields', array('status' => 400));
+      }
+
+      //validate date_id and get the date
+      $date = null;
+      $dateKey = null;
+      foreach ($eventDates as $key => $value) {
+        if ($value['id'] === $req_data['date_id']) {
+          $date = $value;
+          $dateKey = $key;
+        }
+      }
+
+      if($date === null) {
+        return new \WP_Error('invalid_date_id', 'Invalid date ID', array('status' => 400));
+      }
+
+      //validate location_id and get the location
+      $location = null;
+      $locKey = null;
+      foreach($date['locations'] as $key => $value) {
+        if ($value['id'] === $req_data['location_id'] ) {
+          $location = $value;
+          $locKey = $key;
+        }
+      }
+
+      if($location === null) {
+        return new \WP_Error('invalid_location_id', 'Invalid location ID', array('status' => 400));
+      }
+
+      $subscription = null;
+      $subKey = null;
+      foreach($location['subscriptions'] as $key => $value) {
+        if ($value['id'] === $req_data['subscription_id'] ) {
+          $subscription = $value;
+          $subKey = $key;
+        }
+      }
+
+      if($subscription === null) {
+        return new \WP_Error('invalid_location_id', 'Invalid location ID', array('status' => 400));
+      }
+
+      //set the deleted at value to curent date 
+      $subscription['verwijderd_op'] = current_time("d-m-Y H:i");
+      $eventDates[$dateKey]['locations'][$locKey]['subscriptions'][$subKey] =
+        $subscription;
+      
+      //update the database
+      $encodedDates = base64_encode(json_encode($eventDates));
+      update_post_meta($req_data['event_id'], 'tlc-dates', $encodedDates);
+
+      //return the subscription
+      return $subscription;
+  }
   
 
   private function notify_admin($email, $event, $date, $location)
