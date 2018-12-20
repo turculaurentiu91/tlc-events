@@ -31,9 +31,10 @@ if (isset($_GET['unsubscribe'])) {
   
   foreach($postDates[$date_key]['locations'][$loc_key]['subscriptions'] as $key => $val)
   {
-    if ($val['e_mailadres'] == $unsub_data['email'])
+    if ($val['id'] == $unsub_data['subscription_id'])
     {
-      unset($postDates[$date_key]['locations'][$loc_key]['subscriptions'][$key]);
+      $postDates[$date_key]['locations'][$loc_key]['subscriptions'][$key]['verwijderd_op'] = 
+        current_time("d-m-Y H:i");
     }
   }
   update_post_meta($post->ID, 'tlc-dates', base64_encode(json_encode($postDates)));
