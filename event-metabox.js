@@ -470,6 +470,8 @@ const app = new Vue({
             newKey = "Geregistreerd Op";
           } else if (key === "verwijderd_op" ) {
             newKey = "Verwijderd Op"
+          } else if(key === "id") {
+            newKey = key;
           } else {
             newKey = this.formFields.find(f => f.slug === key).value;
           }
