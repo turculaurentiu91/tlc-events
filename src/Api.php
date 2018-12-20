@@ -144,7 +144,7 @@ class Api
 
       $unsubscribeData = base64_encode(json_encode(array(
         'event_id' => $req_data['event_id'],
-        'subscription_id' => $req_data['id'],
+        'subscription_id' => $subscription['id'],
         'date_id' => $date['id'],
         'location_id' => $location['id'],
       )));
