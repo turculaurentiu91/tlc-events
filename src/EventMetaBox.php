@@ -42,7 +42,7 @@ class EventMetaBox {
     <div class="event-metabox w3-card-2" id="event-metabox">
       <input type="hidden" name="tlc-dates" id="tlc-dates" v-bind:value="jsonDates" >
       <input type="hidden" name="tlc-form-fields" id="tlc-form-fields" v-bind:value="jsonFormFields" >
-      <div class="w3-sidebar w3-bar-block w3-border-right" style="width:20%; position: absolute!important;">
+      <div class="w3-sidebar w3-bar-block w3-border-right" style="width:15%; position: absolute!important;">
         <h3 class="w3-bar-item w3-margin-top">Menu</h3> 
         <nav-link 
           v-bind:active="page === 'dates'"
@@ -66,7 +66,7 @@ class EventMetaBox {
         ><?= __("Email Template", "tlc-events") ?></nav-link>
       </div>
 
-      <div style="margin-left:20%">
+      <div style="margin-left:15%">
        <div class="tlc-pages" v-bind:class="{'w3-hide' : page !== 'dates'}">
         <h3 class="w3-card w3-red w3-padding w3-margin-top" v-if="dates.length === 0">
           <?= __("You must specify at least one date!", "tlc-events") ?>
