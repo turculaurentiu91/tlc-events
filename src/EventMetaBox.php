@@ -226,24 +226,24 @@ class EventMetaBox {
 
           <div v-if="dates[subsSelectedDate].locations.length > 0">
             <div class="w3-margin w3-padding" 
-              v-if="!dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions
-              || dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions.length <= 0">
-              <h3><?= __("No subscriptions for this date and location", "tlc-events") ?></h3>
+              v-if="!subsTable
+              || subsTable.length <= 0">
+              <h3><?= __("No subsTable for this date and location", "tlc-events") ?></h3>
             </div>
 
-            <div v-if="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions">
-              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions.length > 0">
+            <div v-if="subsTable">
+              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0">
                 <tr>
                   <th></th>
-                  <th v-for="field in formFields">{{field.value}}</th>
+                  <th v-for="(value, key) in subsTable[0]">{{key}}</th>
                 </tr>
-                <tr v-for="sub in dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions">
+                <tr v-for="sub in subsTable">
                   <td style="width: 2em;">
                     <button @click.prevent="deleteSub(sub)" class="w3-button w3-round w3-text-red">
                       <span class="dashicons dashicons-no"></span>
                     </button>
                   </td>
-                  <td v-for="field in formFields">{{sub[field.slug]}}</td>
+                  <td v-for="value in sub">{{value}}</td>
                 </tr>
               </table>
               <p class="w3-tiny w3-padding"><i>*<?= __("You must update the post in order for changes to take effect") ?></i></p>

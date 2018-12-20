@@ -455,6 +455,31 @@ const app = new Vue({
     locations: function() {
       return this.dates[this.locationsSelectedDate].locations;
     },
+
+    subscriptions: function() {
+      return this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc].subscriptions;
+    },
+
+    subsTable: function() {
+      return this.subscriptions.map(sub => {
+        const mappedSub = {};
+
+        for (const key of Object.keys(sub)) {
+          let newKey = undefined;
+          if (key === "geregistreerd_op") {
+            newKey = "Geregistreerd Op";
+          } else if (key === "verwijderd_op" ) {
+            newKey = "Verwijderd Op"
+          } else {
+            newKey = this.formFields.find(f => f.slug === key).value;
+          }
+          mappedSub[newKey] = sub[key];
+        }
+
+        return mappedSub;
+      });
+
+    },
   },
 
   methods: {

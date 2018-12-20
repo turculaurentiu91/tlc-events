@@ -40,3 +40,4 @@ v1.0.9
   - Register subscription timestamp on subscribtion
   - On edit event page, on subscription list, made the table responsive
   - On edit event page, on subscription list, edit the table to show the subscribed at and deleted at fields
+  - made the sidebar smaller
