@@ -235,7 +235,7 @@ class EventMetaBox {
               <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0">
                 <tr>
                   <th></th>
-                  <th v-for="(value, key) in subsTable[0]">{{key}}</th>
+                  <th v-for="(value, key) in subsTable[0]"><span style="display: inline-block">{{key}}</span></th>
                 </tr>
                 <tr v-for="sub in subsTable">
                   <td style="width: 2em;">
@@ -243,7 +243,7 @@ class EventMetaBox {
                       <span class="dashicons dashicons-no"></span>
                     </button>
                   </td>
-                  <td v-for="value in sub">{{value}}</td>
+                  <td v-for="value in sub"><span style="display: inline-block">{{value}}</span></td>
                 </tr>
               </table>
               <p class="w3-tiny w3-padding"><i>*<?= __("You must update the post in order for changes to take effect") ?></i></p>
