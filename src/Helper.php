@@ -10,6 +10,7 @@ class Helper {
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+    $randomString[0] = "_";
     return $randomString;
   }
 }
