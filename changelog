@@ -42,3 +42,4 @@ v1.0.9
   - On edit event page, on subscription list, edit the table to show the subscribed at and deleted at fields
   - made the sidebar smaller
   - On edit event page, on subscription list, edit the table to show the fields as inline block
+  - Added a helper class with a random string generator function
