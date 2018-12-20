@@ -136,6 +136,7 @@ class Api
 
       $subscription['geregistreerd_op'] = current_time("d-m-Y H:i");
       $subscription['verwijderd_op'] = " ";
+      $subscription['id'] = Helper::randString();
 
       $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']]['subscriptions'][] = $subscription;
       $encodedDates = base64_encode(json_encode($eventDates));
@@ -143,7 +144,7 @@ class Api
 
       $unsubscribeData = base64_encode(json_encode(array(
         'event_id' => $req_data['event_id'],
-        'email' => $req_data['e_mailadres'],
+        'subscription_id' => $req_data['id'],
         'date_id' => $date['id'],
         'location_id' => $location['id'],
       )));
