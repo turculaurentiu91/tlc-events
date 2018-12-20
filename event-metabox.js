@@ -6,6 +6,49 @@ var ID = function () {
   return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+Vue.component('insert-sub', {
+  props: ['dateId', 'locationId', 'eventId', 'formFields', 'show'],
+  data: function() { return {
+    formData: {},
+    fetching: false,
+  }; },
+  created: function() {
+    this.formFields.forEach(field => {
+      this.$set(this.formData, field.slug, '');
+    });
+  },
+  methods: {
+    close: function() { 
+      this.$emit('close'); 
+    },
+    submit: function() {
+
+    }
+  },
+  template: `
+  <div style="display: block; z-index: 1000" v-if="show" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span @click="close" 
+        class="w3-button w3-display-topright">&times;</span>
+        <br>
+        <div class="w3-panel" style="margin-top: 30px;">
+          <form @submit.prevent="submit">
+            <div class="w3-margin" v-for="field in formFields">
+              <label v-bind:for="field.slug">{{field.value}}</label>
+              <input type="text" class="w3-input w3-border" v-model="formData[field.slug]">
+            </div>
+            <div class="w3-margin">
+              <input type="submit" value="voorleggen" class="w3-button w3-teal w3-block">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
+});
+
 Vue.component('delete-sub', {
   props: ['dateId', 'locationId', 'eventId', 'subscriptionId', 'show', 'apiEndpoint'],
   data: function() { return {

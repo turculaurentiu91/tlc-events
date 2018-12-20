@@ -50,3 +50,6 @@ v1.1.0
   - Now the admin/unsubscribe API Endpoint sends a notification to the user if specified in the POST data as notify: truthy value
   - Added %event_link% in the unsubscribe email template
   - Added a modal to delete a subscription and use the admin / unsubscribe API ednpoint
+
+v1.1.1
+  - Add a way to insert a subscription in the admin edit event

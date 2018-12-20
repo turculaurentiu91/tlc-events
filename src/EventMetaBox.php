@@ -282,6 +282,10 @@ class EventMetaBox {
         v-on:deleted="deleteSub"
       >
       </delete-sub>
+      <insert-sub
+        v-bind:show="true"
+        v-bind:form-fields="formFields"
+      ></insert-sub>
     </div>
     <script src="<?= plugins_url('papaparse.min.js', dirname(__FILE__)) ?>"></script>
     <script src="<?= plugins_url( 'event-metabox.js', dirname(__FILE__) ) ?>"></script>
