@@ -25,6 +25,10 @@
     update_option('tlc-events-admin-email', $_POST['tlc-admin-email']);
   }
 
+  if (isset($_POST['tlc-unsub-template'])) {
+    update_option('tlc-events-unsub-template', $_POST['tlc-unsub-template']);
+  }
+
   if (isset($_POST['tlc-rewrite'])) {
     update_option('tlc-events-rewrite', $_POST['tlc-rewrite']);
     \TlcEvents\EventPostType::getInstance()->flush_rules();
@@ -38,6 +42,8 @@
   $adminEmail = get_option('tlc-events-admin-email');
 
   $link = get_option('tlc-events-rewrite', 'events');
+
+  $unsub_template = get_option('tlc-events-unsub-template');
 ?>
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -79,11 +85,28 @@
         </div>
 
         <div class="w3-row-padding w3-margin-bottom">
-        <div class="w3-col l4" > <?= get_site_url() ?>/</div>
+          <div class="w3-col l4" > <?= get_site_url() ?>/</div>
           <div class="w3-col l4 s4 m4" >
             <input type="text" style="height: 40px;" name="tlc-rewrite" id="tlc-rewrite" value="<?= $link ?>" class="w3-input w3-border">
           </div>
           <div class="w3-col l4 s4 m4" >/%postname%</div>
+        </div>
+        <br>
+        <div class="w3-margin">
+          <label for="tlc-unsub-template">Abonnement e-mailmelding verwijderen</Label>
+          <?php 
+            wp_editor( 
+              $unsub_template, 
+              'tlc-unsub-template', 
+              array()
+            );
+          ?>
+          <style>
+            #tlc-unsub-template_ifr {
+              height: 300px!important;
+            }
+          </style>
+          <p>Te gebruiken tags: %location% %city% %date% %start_time% %end_time% %address% %event_title%</p>
         </div>
 
         

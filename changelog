@@ -46,3 +46,4 @@ v1.0.9
 
 v1.1.0
   - Added API Endpoint for admin to unsubscribe a subscription
+  - Added unsubscribe email template to manage the email template when a user gets unsubscribed from the admin page
