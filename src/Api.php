@@ -112,6 +112,34 @@ class Api
       $encodedDates = base64_encode(json_encode($eventDates));
       update_post_meta($req_data['event_id'], 'tlc-dates', $encodedDates);
 
+      //notify the user if its set in the req_data
+      if (isset($req_data['notify'])) {
+        if ($req_data['notify']) {
+
+          $find_tags = array('%location%', '%city%', '%date%', '%start_time%', '%end_time%',
+             '%address%', '%event_title%');
+      
+          $replace_tags = array(
+            $location['name'],
+            $location['city'],
+            "{$date['day']}/{$date['month']}/{$date['year']}",
+            "{$location['startHour']}:{$location['startMin']}",
+            "{$location['endHour']}:{$location['endMin']}",
+            $location['address'],
+            get_post($req_data['event_id'])->post_title,
+          );
+      
+          $email = str_replace($find_tags, $replace_tags, get_option('tlc-events-unsub-template'));
+      
+          wp_mail(
+            $subscription['e_mailadres'],
+            __("Subscription Notification", "tlc-events"),
+            $email
+          );
+
+        }
+      }
+
       //return the subscription
       return $subscription;
   }
