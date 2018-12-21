@@ -38,6 +38,7 @@ class EventMetaBox {
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
     integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
     <div class="event-metabox w3-card-2" id="event-metabox">
       <input type="hidden" name="tlc-dates" id="tlc-dates" v-bind:value="jsonDates" >
