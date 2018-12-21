@@ -161,16 +161,18 @@ class Api
 
   private function notify_sub($data)
   {
-    $find_tags = array('%city%', '%date%', '%time%', '%address%', '%event_title%', '%unsubscribe_link%');
+    $find_tags = array('%location%', '%city%', '%date%', '%start_time%', '%end_time%', '%address%', '%event_title%', '%unsubscribe_link%');
     foreach($data['form-fields'] as $key => $field)
     {
       $find_tags[] = "%" .$key. "%";
     }
 
     $replace_tags = array(
+      $data['location'],
       $data['city'],
       "{$data['date']['day']}-{$data['date']['month']}-{$data['date']['year']}",
-      "{$data['hour']}:{$data['min']}",
+      "{$data['start_hour']}:{$data['start_min']}",
+      "{$data['end_hour']}:{$data['end_min']}",
       $data['address'],
       $data['event'],
       '<a href="' .$data['unsubscribe_link'] .'">' . __("Unsubscribe","tlc-events") . '</a>'
@@ -287,10 +289,13 @@ class Api
         'email' => $req_data['e_mailadres'],
         'date' => $eventDates[$req_data['date_id']],
         'event' => get_post($req_data['event_id'])->post_title,
+        'location' => $location['name'],
         'city' => $location['city'],
         'address' => $location['address'],
-        'hour' => $location['startHour'],
-        'min' => $location['startMin'],
+        'start_hour' => $location['startHour'],
+        'start_min' => $location['startMin'],
+        'end_hour' => $location['endHour'],
+        'end_min' => $location['endMin'],
         'unsubscribe_link' => $unsubscribe_link,
         'form-fields' => $subscription,
         'email-template' => get_post_meta($req_data['event_id'], 'tlc-email-template')
