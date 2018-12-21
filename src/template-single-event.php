@@ -84,6 +84,10 @@ if (isset($_GET['unsubscribe'])) {
             >
           </div>
           <div class="w3-margin">
+            <input type="checkbox" required class="w3-check"> 
+            I have read and agree with the <a href="#">Term and Conditions</a> and <a href="#">Privacy policy</a>
+          </div>
+          <div class="w3-margin">
             <input type="submit" v-bind:disabled="subscribing"
               class="w3-button w3-white w3-text-red w3-border w3-border-red w3-hover-red w3-bar w3-round"
               value="<?= __("Subscribe", "tlc-events") ?>" v-if="!subscribing">
