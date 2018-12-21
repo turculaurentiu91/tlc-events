@@ -237,16 +237,16 @@ class EventMetaBox {
             <div v-if="subsTable">
               <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0" id="subs-table">
                 <tr>
-                  <th></th>
                   <th v-for="(value, key) in filteredSubsTable[0]"><span style="display: inline-block">{{key}}</span></th>
+                  <th></th>
                 </tr>
                 <tr v-for="(sub, index) in filteredSubsTable">
+                  <td v-for="value in sub"><span style="display: inline-block">{{value}}</span></td>
                   <td style="width: 2em;">
                     <button @click.prevent="selectDeleteSub(index)" class="w3-button w3-round w3-text-red">
                       <span class="dashicons dashicons-no"></span>
                     </button>
                   </td>
-                  <td v-for="value in sub"><span style="display: inline-block">{{value}}</span></td>
                 </tr>
               </table>
             </div>
