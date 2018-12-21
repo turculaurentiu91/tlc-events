@@ -53,14 +53,14 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
     <h3 class="w3-text-red w3-margin-left">{{month.year}}</h3>
     <p class="w3-margin-left">{{month.name}}</p>
     <div class="w3-row-padding w3-margin-bottom w3-padding-bottom" v-for="eventIndex in month.eventsIndexes">
-      <div class="w3-col l2">
+      <div class="w3-col l2 m2">
         <a v-bind:href="events[eventIndex].url">
           <img v-if="events[eventIndex].img" v-bind:src="events[eventIndex].img" 
           v-bind:alt="'Event thumbnail' + eventIndex" style="width: 100%" >
         </a>
         
       </div>
-      <div class="w3-col l8">
+      <div class="w3-col l8 m8">
         <div class="">
           <span class="" v-for="(date, dateIndex) in filteredDatesByMonth(events[eventIndex], month.number)">
               {{date.m.format('DD')}} {{month.name}} {{date.m.format('YYYY')}}
