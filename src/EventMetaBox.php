@@ -289,6 +289,7 @@ class EventMetaBox {
         </div>
       </div>
       <delete-sub
+        v-if="hasAnySubs"
         v-bind:show="showDeleteModal"
         api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/admin/unsubscribe" ?>"
         v-bind:date-id="dates[subsSelectedDate].id"
