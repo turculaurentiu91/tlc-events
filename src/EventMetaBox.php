@@ -235,7 +235,7 @@ class EventMetaBox {
             </div>
 
             <div v-if="subsTable">
-              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0">
+              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0" id="subs-table">
                 <tr>
                   <th></th>
                   <th v-for="(value, key) in filteredSubsTable[0]"><span style="display: inline-block">{{key}}</span></th>
@@ -259,6 +259,12 @@ class EventMetaBox {
               class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="exportToCsv">
               <?= __("Export Table to CSV", "tlc-events") ?>
             </button>
+
+            <button 
+              class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="exportToXlsl">
+              Exporteer Naar XLSL
+            </button>
+
             <button 
               class="w3-teal w3-round w3-button w3-margin tlc-newDate-button" 
               @click.prevent="showInsertSubForm = true" v-bind:disabled="!formFieldsHasEmail">
