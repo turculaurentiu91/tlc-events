@@ -295,10 +295,6 @@ class Api
         'form-fields' => $subscription,
         'email-template' => get_post_meta($req_data['event_id'], 'tlc-email-template')
       ));
-
-      return array(
-        'status' => 'success', 
-        'link' => $unsubscribe_link,
-      );
+      return $subscription;
   }
 }

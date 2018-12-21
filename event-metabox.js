@@ -6,8 +6,21 @@ var ID = function () {
   return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+Vue.component('filter-sub', {
+  props: ['filterFields'],
+  template: `
+    <div class="w3-panel">
+      <span v-for="(field, key) in filterFields" class="filter-el">
+        <input type="checkbox" v-bind:checked="field"
+        @click.prevent="$emit('check', {key: key, value: $event.target.checked})">
+        <label>{{key}}</label>
+      </span>
+    </div>
+  `
+})
+
 Vue.component('insert-sub', {
-  props: ['dateId', 'locationId', 'eventId', 'formFields', 'show'],
+  props: ['dateId', 'locationId', 'eventId', 'formFields', 'show', 'apiEndpoint'],
   data: function() { return {
     formData: {},
     fetching: false,
@@ -19,10 +32,35 @@ Vue.component('insert-sub', {
   },
   methods: {
     close: function() { 
-      this.$emit('close'); 
+      this.$emit('close');
+      this.formFields.forEach(field => {
+        this.$set(this.formData, field.slug, '');
+      });
+      this.fetching = false; 
     },
     submit: function() {
-
+      this.fetching = true;
+      const req_data = {
+        event_id: this.eventId,
+        location_id: this.locationId,
+        date_id: this.dateId,
+        ...this.formData,
+      };
+      fetch(this.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8', },
+        body: JSON.stringify(req_data),
+      })
+      .then(res => res.json())
+      .then(res => {
+        this.$emit('added', res);
+        this.close();
+      })
+      .catch(err => {
+        console.error(err);
+        this.fetching = false;
+        this.$emit('close');
+      });
     }
   },
   template: `
@@ -39,7 +77,9 @@ Vue.component('insert-sub', {
               <input type="text" class="w3-input w3-border" v-model="formData[field.slug]">
             </div>
             <div class="w3-margin">
-              <input type="submit" value="voorleggen" class="w3-button w3-teal w3-block">
+              <button class="w3-button w3-teal w3-block" v-bind:disabled="fetching">
+                {{fetching ? "indienen" : "voorleggen"}}
+              </button>
             </div>
           </form>
         </div>
@@ -482,7 +522,7 @@ Vue.component('location-input', {
 });
 
 Vue.component('form-input', {
-  props: ['index', 'label', 'value', 'slug', 'position'],
+  props: ['index', 'label', 'value', 'slug', 'position', "canDelete"],
   template: `
   <div v-show="!dragged" draggable="true" 
   v-on:dragover.prevent="draggedOver = true"
@@ -499,11 +539,12 @@ Vue.component('form-input', {
         <div class="w3-col l1 w3-padding"><label>{{label}}</label></div>
         <div class="w3-col l3">
           <input class="w3-input w3-border" type="text" v-bind:value="value" 
-          v-on:input="$emit('input', {index: index, value: $event.target.value })" >
+          v-on:input="$emit('input', {index: index, value: $event.target.value })" 
+          v-bind:disabled="canDelete">
         </div>
         <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
         <div class="w3-rest w3-right-align">
-          <button 
+          <button v-bind:disabled="canDelete"
             class="w3-button w3-red w3-round" 
             @click.prevent="$emit(\'delete\', index)"
           >
@@ -568,9 +609,59 @@ const app = new Vue({
     subsSelectedLoc: 0,
     subsSelectedSub: 0,
     showDeleteModal: false,
+    showInsertSubForm: false,
+    filterFields: {},
+  },
+
+  created: function() {
+    const filterFields = {};
+    this.formFields.forEach(field => {
+      filterFields[field.value] = true;
+    });
+    filterFields['Geregistreerd Op'] = true;
+    filterFields['Verwijderd Op'] = true;
+    filterFields['id'] = true;
+    this.filterFields = filterFields;
+  },
+
+  watch: {
+    formFields: function(newVal) {
+      for (const key in this.filterFields) {
+        if (
+            newVal.findIndex(field => field.value === key) === -1 &&
+            key !== "Geregistreerd Op" &&
+            key !== "Verwijderd Op" &&
+            key !== "id"
+          ) {
+          delete this.filterFields[key];
+        }
+      }
+
+      newVal.forEach(field => {
+        if (this.filterFields[field.value] === undefined) {
+          this.$set(this.filterFields, field.value, true);
+        }
+      });
+    }
   },
 
   computed: {
+
+    hasAnySubs: function() {
+      for (date of this.dates) {
+        for (loc of date.locations) {
+          if (loc.subscriptions.length) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
+    formFieldsHasEmail: function() {
+      return this.formFields.findIndex(field => field.slug === "e_mailadres") !== -1;
+    },
+
     jsonDates: function() {
       return window.btoa(JSON.stringify(this.dates));
     },
@@ -588,6 +679,7 @@ const app = new Vue({
     },
 
     subsTable: function() {
+      
       return this.subscriptions.map(sub => {
         const mappedSub = {};
 
@@ -609,9 +701,24 @@ const app = new Vue({
       });
 
     },
+
+    filteredSubsTable: function() {
+      const filteredSubsTable = this.subsTable.map(el => {
+        return { ...el};
+      });
+      filteredSubsTable.forEach((sub, index) => {
+        for (const key in sub) {
+          if(!this.filterFields[key]) {
+            delete filteredSubsTable[index][key];
+          }
+        }
+      });
+      return filteredSubsTable;
+    },
   },
 
   methods: {
+
     locationDrop: function(e) {
       const newLoc = [ ...this.locations ];
       newLoc[e.dragIndex].position = e.dropPos;
@@ -658,8 +765,10 @@ const app = new Vue({
     },
 
     inputFormField: function(data) {
-      this.formFields[data.index].value = data.value;
-      this.formFields[data.index].slug = generateSlug(data.value);
+      const newFormFields = [...this.formFields];
+      newFormFields[data.index].value = data.value;
+      newFormFields[data.index].slug = generateSlug(data.value);
+      this.formFields = newFormFields;
     },
 
     newFormField: function(field) {
@@ -841,6 +950,9 @@ const app = new Vue({
       this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc]
         .subscriptions[this.subsSelectedSub].verwijderd_op = e.verwijderd_op;
       
+    },
+    insertedSub: function(sub) {
+      this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc].subscriptions.push(sub);
     }
   }
 });

@@ -171,10 +171,11 @@ class EventMetaBox {
         <div class="tlc-pages" v-bind:class="{'w3-hide' : page !== 'subscription-form'}">
           <div class="w3-container">
             <h3><?= __("Subscription Form", "tlc-events") ?></h3>
-            <p><?= __("Here you can manage the subscription form. As default, the user must enter
-            at least the email. If you remove the email from the form, the subscription mechanic
-            is completly remove, and the user can't click the subscribe button on the event view.
-            This is useful for events where no subscription is needed.") ?></p>
+            <p>Hier kun je het inschrijfformulier beheren. Standaard moet de gebruiker invoeren
+              op zijn minst de e-mail. Als u de E-mailadres van het formulier verwijdert, is de abonnementsmonteur
+              is volledig te verwijderen en de gebruiker kan niet op de knop Abonneren klikken in de gebeurtenisweergave.
+              Dit is handig voor evenementen waarvoor geen abonnement vereist is.</p>
+            <p>U kunt formuliervelden niet invoegen of verwijderen als er abonnementen zijn geregistreerd en u kunt ze ook niet bewerken.</p>
           </div>
           <div class="w3-section w3-border w3-margin" v-if="formFields.length > 0">
             <form-input
@@ -182,6 +183,7 @@ class EventMetaBox {
               :key="index"
               v-bind:index="index"
               label= "<?= __("Field Name","tlc-events") ?>"
+              v-bind:can-delete="hasAnySubs"
               v-bind:value="field.value"
               v-on:delete="deleteFormField"
               v-on:input="inputFormField"
@@ -193,7 +195,7 @@ class EventMetaBox {
             </form-input>
           </div>
 
-          <button 
+          <button v-bind:disabled="hasAnySubs"
               class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="newFormField('<?= __("new field","tlc-events") ?>')">
               <span class="dashicons dashicons-plus"></span> <?= __("New Form Field", "tlc-events") ?>
             </button>
@@ -235,9 +237,9 @@ class EventMetaBox {
               <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0">
                 <tr>
                   <th></th>
-                  <th v-for="(value, key) in subsTable[0]"><span style="display: inline-block">{{key}}</span></th>
+                  <th v-for="(value, key) in filteredSubsTable[0]"><span style="display: inline-block">{{key}}</span></th>
                 </tr>
-                <tr v-for="(sub, index) in subsTable">
+                <tr v-for="(sub, index) in filteredSubsTable">
                   <td style="width: 2em;">
                     <button @click.prevent="selectDeleteSub(index)" class="w3-button w3-round w3-text-red">
                       <span class="dashicons dashicons-no"></span>
@@ -246,12 +248,20 @@ class EventMetaBox {
                   <td v-for="value in sub"><span style="display: inline-block">{{value}}</span></td>
                 </tr>
               </table>
-              <p class="w3-tiny w3-padding"><i>*<?= __("You must update the post in order for changes to take effect") ?></i></p>
             </div>
-
+            <h3 class="w3-margin-left">Filteren op:</h3>
+            <filter-sub 
+              v-bind:filter-fields="filterFields"
+              v-on:check="filterFields[$event.key] = $event.value"
+            ></filter-sub>
             <button 
               class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="exportToCsv">
               <?= __("Export Table to CSV", "tlc-events") ?>
+            </button>
+            <button 
+              class="w3-teal w3-round w3-button w3-margin tlc-newDate-button" 
+              @click.prevent="showInsertSubForm = true" v-bind:disabled="!formFieldsHasEmail">
+              Voeg een nieuw abonnement in
             </button>
           </div>
         </div>
@@ -283,8 +293,14 @@ class EventMetaBox {
       >
       </delete-sub>
       <insert-sub
-        v-bind:show="true"
+        api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/subscribe" ?>"
+        v-bind:show="showInsertSubForm"
         v-bind:form-fields="formFields"
+        v-bind:date-id="subsSelectedDate"
+        v-bind:location-id="subsSelectedLoc"
+        v-bind:event-id="<?= $post->ID ?>"
+        v-on:close="showInsertSubForm = false"
+        v-on:added="insertedSub"
       ></insert-sub>
     </div>
     <script src="<?= plugins_url('papaparse.min.js', dirname(__FILE__)) ?>"></script>

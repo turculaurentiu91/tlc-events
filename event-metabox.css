@@ -76,3 +76,14 @@ input.custom-input__input:focus {
   margin: 20px;
   transition: 1s all;
 }
+
+.filter-el {
+  display: inline-block;
+  margin-right: 2em;
+}
+
+.filter-el:not(:last-child)::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 2em;
+}
