@@ -953,6 +953,10 @@ const app = new Vue({
     },
     insertedSub: function(sub) {
       this.dates[this.subsSelectedDate].locations[this.subsSelectedLoc].subscriptions.push(sub);
+    },
+    exportToXlsl: function() {
+      const wb = XLSX.utils.table_to_book(document.getElementById('subs-table'));
+      XLSX.writeFile(wb, 'subs_table.xlsx', {});
     }
   }
 });
