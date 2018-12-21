@@ -54,3 +54,6 @@ v1.1.0
 v1.1.1
   - Add a way to insert a subscription in the admin edit event
   - Can no longer edit form fields if there is any subscription registered
+
+v1.1.2
+  - Updated subscription email template with %location% %start_time% and %end_time% tags

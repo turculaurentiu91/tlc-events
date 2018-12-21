@@ -275,7 +275,7 @@ class EventMetaBox {
             ?> 
           </div>
           <div class="w3-panel w3-container" style="padding-bottom: 50px!important;">
-            <p><?= __("Available tags", "tlc-events") ?>: %city% %date% %time% %address% %event_title% %unsubscribe_link%</p>
+            <p><?= __("Available tags", "tlc-events") ?>: %location% %city% %date% %start_time% %end_time% %address% %event_title% %unsubscribe_link%</p>
             <p><?= __("Other tags are derrived from form fields slugs. For example, if a form field slug is \"full_name\" an valid tag is &#37;full_name&#37; and it will be replaced with what user submitted in that form field in the subscription form.", "tlc-events") ?></p>
             <p class="tlc-subnote"><?= __("Invalid tags will not be replaced in the final email") ?></p>
           </div>
