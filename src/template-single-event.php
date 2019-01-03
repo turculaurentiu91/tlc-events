@@ -196,7 +196,7 @@ var app = new Vue({
       })
       .then(res => res.json())
       .then(res => {
-        if (res.status === 'success') {
+        if (res.id) {
           this.displaySubscriptionForm = false;
           this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
           this.subscribing = false;
