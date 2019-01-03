@@ -1,3 +1,4 @@
 vendor
 tlc-events.code-workspace
 connect-ssh.sh
+git-pull-ssh.sh
