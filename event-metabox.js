@@ -144,7 +144,7 @@ Vue.component('delete-sub', {
         <br>
         <div class="w3-panel" style="margin-top: 30px;">
           <div v-if="fetching == 'initial'">
-            <h3 >Wil je een e-mail sturen naar de deelnemer?</h3>
+            <h3 style="margin-bottom: 40px;">Wil je een e-mail sturen naar de deelnemer?</h3>
             <div class="w3-bar">
               <button class="w3-bar-item w3-button w3-teal" @click.prevent="close" 
               style="width:33.3%">Annuleren</button>
