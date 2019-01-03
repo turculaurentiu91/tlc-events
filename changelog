@@ -59,3 +59,5 @@ v1.1.2
   - Updated subscription email template with %location% %start_time% and %end_time% tags
   - Added export XLSX format of subscriptions table
   - Added Read and agree with terms and conditions checkobx on subscription form
+  - Fixed bug where a new subscription displaied an error even if the server returned success
+  - Fixed a bug where the subscription table didn't displaied properly when he was smaller than total width of parent

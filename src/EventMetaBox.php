@@ -234,8 +234,8 @@ class EventMetaBox {
               <h3><?= __("No subsTable for this date and location", "tlc-events") ?></h3>
             </div>
 
-            <div v-if="subsTable">
-              <table class="w3-table-all w3-responsive w3-margin" style="width: 95%" v-if="subsTable.length > 0" id="subs-table">
+            <div v-if="subsTable" class="w3-responsive" style="width: 95%;">
+              <table class="w3-table-all w3-margin" style="width: 95%;" v-if="subsTable.length > 0" id="subs-table">
                 <tr>
                   <th v-for="(value, key) in filteredSubsTable[0]"><span style="display: inline-block">{{key}}</span></th>
                   <th></th>
