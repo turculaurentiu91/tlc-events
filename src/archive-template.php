@@ -60,7 +60,7 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
         </a>
         
       </div>
-      <div class="w3-col l8 m8">
+      <div class="w3-col l10 m10">
         <div class="">
           <span class="" v-for="(date, dateIndex) in filteredDatesByMonth(events[eventIndex], month.number)">
               {{date.m.format('DD')}} {{month.name}} {{date.m.format('YYYY')}}

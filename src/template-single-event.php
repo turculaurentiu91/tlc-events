@@ -69,7 +69,12 @@ if (isset($_GET['unsubscribe'])) {
       <div class="w3-container">
         <span @click="hideSubscriptionForm" 
         class="w3-button w3-display-topright" v-bind:class="{'w3-disabled' : subscribing}">&times;</span>
-        <h3><b><?= __("Subscription Form", "tlc-events") ?></b></h3><hr><br>
+        <h3><b><?= __("Subscription Form", "tlc-events") ?></b></h3>
+        <div class="w3-panel">
+          <hr>
+          <p>{{selectedDate.day}}-{{selectedDate.month}}-{{selectedDate.year}} van {{selectedLocation.startHour + ':' + selectedLocation.startMin}} tot {{selectedLocation.endHour + ':' + selectedLocation.endMin}} </p>
+          <p> <b><?= __("City", "tlc-events") ?>:</b> {{selectedLocation.city}} | <b><?= __("Address", "tlc-events") ?>:</b> {{selectedLocation.address}} </p> <hr>
+        </div>
         <form action="#" v-on:submit.prevent="subscribe">
           <div class="w3-margin" v-for="field in formFields">
             <label v-bind:for="field.slug">{{field.value}}</label>
@@ -85,7 +90,7 @@ if (isset($_GET['unsubscribe'])) {
           </div>
           <div class="w3-margin">
             <input type="checkbox" required class="w3-check"> 
-            I have read and agree with the <a href="#">Term and Conditions</a> and <a href="#">Privacy policy</a>
+            Ik ga akkoord met de <a href="https://www.hoppenbrouwers-techniek.nl/privacy-policy/" target="_BLANK">Privacy policy</a>.
           </div>
           <div class="w3-margin">
             <input type="submit" v-bind:disabled="subscribing"
@@ -97,13 +102,6 @@ if (isset($_GET['unsubscribe'])) {
               value="<?= __("Subscribing...", "tlc-events") ?>" v-if="subscribing">
           </div>
         </form>
-
-        <div class="w3-panel">
-          <h4><b>{{selectedDate.day}}-{{selectedDate.month}}-{{selectedDate.year}}</b></h4><hr>
-          <p> <b><?= __("City", "tlc-events") ?>:</b> {{selectedLocation.city}} | 
-            <b><?= __("starting at", "tlc-events") ?>:</b> {{selectedLocation.startHour + ':' + selectedLocation.startMin}} </p>
-          <p> <b><?= __("Address", "tlc-events") ?>:</b> {{selectedLocation.address}} </p> <hr><br>
-        </div>
       </div>
     </div>
   </div>
@@ -198,7 +196,7 @@ var app = new Vue({
       .then(res => {
         if (res.id) {
           this.displaySubscriptionForm = false;
-          this.displayMessage('<?= __("You have successfully subscribed to this event!") ?>');
+          this.displayMessage('<?= __("De aanmelding is gelukt!") ?>');
           this.subscribing = false;
         } else {
           throw new Error(res.code);
@@ -208,7 +206,7 @@ var app = new Vue({
         this.displaySubscriptionForm = false;
         this.subscribing = false;
         console.error(err);
-        this.displayMessage('<?= __("There is an internal server error, please try again later.") ?>', true);
+        this.displayMessage('<?= __("Er is een fout opgetreden. Probeer het nog eens.") ?>', true);
       });
     },
 

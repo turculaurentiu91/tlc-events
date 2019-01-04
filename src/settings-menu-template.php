@@ -93,7 +93,7 @@
         </div>
         <br>
         <div class="w3-margin">
-          <label for="tlc-unsub-template">Abonnement e-mailmelding verwijderen</Label>
+          <label for="tlc-unsub-template">E-mailmelding verwijderen</Label>
           <?php 
             wp_editor( 
               $unsub_template, 

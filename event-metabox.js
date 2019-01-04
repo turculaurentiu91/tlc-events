@@ -146,20 +146,18 @@ Vue.component('delete-sub', {
           <div v-if="fetching == 'initial'">
             <h3 style="margin-bottom: 40px;">Wil je een e-mail sturen naar de deelnemer?</h3>
             <div class="w3-bar">
-              <button class="w3-bar-item w3-button w3-teal" @click.prevent="close" 
-              style="width:33.3%">Annuleren</button>
-
-              <button class="w3-bar-item w3-button w3-red" @click.prevent="deleteSubNoNotify"
-              style="width:33.3%">Nee</button>
-
               <button class="w3-bar-item w3-button w3-green" @click.prevent="deleteSubWithNotify"
                style="width:33.3%">Ja</button>
+              <button class="w3-bar-item w3-button w3-red" @click.prevent="deleteSubNoNotify"
+              style="width:33.3%">Nee</button>
+              <button class="w3-bar-item w3-button w3-teal" @click.prevent="close" 
+              style="width:33.3%">Annuleren</button>
             </div>
           </div>
           <div v-if="fetching != 'initial'">
-              <h3 v-if="fetching == 'fetching'">Het abonnement verwijderen</h3>
+              <h3 v-if="fetching == 'fetching'">Aanmelding verwijderen</h3>
               <h3 v-if="fetching == 'success'">Succesvol verwijderd</h3>
-              <h3 v-if="fetching == 'error'">Fout bij verwijderen van abonnement</h3>
+              <h3 v-if="fetching == 'error'">Fout bij verwijderen van aanmelding</h3>
 
               <button class="w3-button w3-block w3-teal" v-bind:disabled="fetching == 'fetching'"
               @click.prevent="close">Annuleren</button>
@@ -754,7 +752,7 @@ const app = new Vue({
         { quotes: true }
       );
       a.href = window.URL.createObjectURL(new Blob([csvString], {type: 'text/csv'}));
-      a.download = 'subscriptions.csv';
+      a.download = 'aanmeldingen.csv';
 
       // Append anchor to body.
       document.body.appendChild(a);

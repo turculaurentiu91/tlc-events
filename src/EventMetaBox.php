@@ -262,13 +262,13 @@ class EventMetaBox {
 
             <button 
               class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="exportToXlsl">
-              Exporteer Naar XLSL
+              Exporteer naar Excel
             </button>
 
             <button 
               class="w3-teal w3-round w3-button w3-margin tlc-newDate-button" 
               @click.prevent="showInsertSubForm = true" v-bind:disabled="!formFieldsHasEmail">
-              Voeg een nieuw abonnement in
+              Voeg een aanmelding toe
             </button>
           </div>
         </div>
