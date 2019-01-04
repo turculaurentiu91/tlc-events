@@ -61,7 +61,9 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
       </div>
       <div class="w3-col l10 m10">
         <div class="">
+            <span v-if="filteredDatesByMonth(events[eventIndex], month.number).length > 1">Meerdere data:</span>
 			<span class="" v-for="(date, dateIndex) in filteredDatesByMonth(events[eventIndex], month.number)">
+              <span v-if="dateIndex !== 0">-</span>
               {{date.m.format('DD')}} {{month.name}} {{date.m.format('YYYY')}}
 			</span>
         </div>
