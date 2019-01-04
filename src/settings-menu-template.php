@@ -114,6 +114,7 @@
         <input type="submit" value="<?= __("Submit", "tlc-events") ?>" class="w3-button w3-blue w3-margin">
       </form>
       <h3><?= __("Archive shortcode is") ?>: [tlc_events_archive]</h3>
+      <h3><?= __("Upcoming Events shortcode is") ?>: [tlc_events_upcoming]</h3>
     </div>
   </div>
 </div>

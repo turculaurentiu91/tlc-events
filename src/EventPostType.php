@@ -79,6 +79,14 @@ class EventPostType
       ob_end_clean();
       return $content;
     });
+
+    add_shortcode('tlc_events_upcoming', function($atts){
+      ob_start();
+      include "upcoming-template.php";
+      $content = \ob_get_contents();
+      ob_end_clean();
+      return $content;
+    });
   }
 
   public function create_post_type()
@@ -116,7 +124,7 @@ class EventPostType
       'label'                 => __( 'Event', 'tlc-events' ),
       'description'           => __( 'Events', 'tlc-events' ),
       'labels'                => $labels,
-      'supports'              => array( 'title', 'editor', 'thumbnail' ),
+      'supports'              => array( 'title', 'editor', 'thumbnail',),
       'taxonomies'            => array(),
       'hierarchical'          => false,
       'public'                => true,
