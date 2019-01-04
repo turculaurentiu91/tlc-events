@@ -146,10 +146,10 @@ class Api
   }
   
 
-  private function notify_admin($email, $event, $date, $location)
+  private function notify_admin($email, $event, $date, $location, $admin_email)
   {
     wp_mail(
-      get_option('tlc-events-admin-email'),
+      $admin_email,
       'New Subscription',
       "<h2>New subscription</h2> 
       Event: {$event}<br>
@@ -282,7 +282,8 @@ class Api
         $req_data['e_mailadres'],
         get_post($req_data['event_id'])->post_title,
         $eventDates[$req_data['date_id']],
-        $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']]
+        $eventDates[$req_data['date_id']]['locations'][$req_data['location_id']],
+        get_post_meta($req_data['event_id'], 'tlc-admin-email', true)
       );
 
       $this->notify_sub(array(
