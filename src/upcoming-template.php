@@ -12,7 +12,7 @@ global $post;
 while ($query->have_posts()) {
   $query->the_post();
   $content = strip_tags($post->post_content);
-  $excript = strlen($content) <= 74 ? $content : substr($content, 0, 73) . "&hellip;";
+  $excript = strlen($content) <= 74 ? $content : substr($content, 0, 74) . " ...";
   $events[] = array(
     'id' => $post->ID,
     'title' =>$post->post_title,
@@ -108,16 +108,11 @@ $events = array_slice($events, 0, 3);
         overflow: hidden;
     }
     
-    .tlc-card__thumbnail a:hover > img {
-        transform: scale(1.5);
-    }
     
     .tlc-card__thumbnail a img {
         width: 230px;
         max-width: 100%;
         height: auto;
-        transform: scale(1);
-        transition: transform 3s;
     }
     
     .tlc-card__content {
@@ -169,21 +164,21 @@ $events = array_slice($events, 0, 3);
         <a href="<?= $event['url'] ?>" title="<?= $event['title'] ?>" rel="bookmark"><?= $event['title'] ?></a>
       </h3>
 
-      <div class="entry-meta"><a href="#" title="00:00" class="data-link" rel="bookmark"><time>
+      <div class="entry-meta"><a href="<?= $event['url'] ?>" title="00:00" class="data-link" rel="bookmark"><time>
         <?php
           $date = $event['dates'][0];
-          $date = "{$date['day']}-{$date['month']}-{$date['year']} {$date['startHour']}:{$date['startMin']}";
-          $location = count($event['dates'][0]['locations']) > 1 ? $event['dates'][0]['locations'][0]['name'] : "Meerdere locaties";
+          $date = "{$date['day']}-{$date['month']}-{$date['year']}";
+          $location = count($event['dates'][0]['locations']) <= 1 ? $event['dates'][0]['locations'][0]['name'] : "Meerdere locaties";
           if (count($event['dates']) > 1) {
-            echo "Meerdere data, eerst komende: {$date} | {$location}";
+            echo "Meerdere data, eerste: {$date} | {$location}";
           } else {
             echo "{$date} | {$location}";
           }
         ?>
       </time></a></div>
-      <div class="entry-excerpt"><p>&nbsp; <?= $event['excript'] ?></p>
+      <div class="entry-excerpt"><p><?= $event['excript'] ?></p>
     </div>
-      <a href="<?= $event['url'] ?>" class="post-details details-type-link" rel="nofollow">Lees verder...<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+      <a href="<?= $event['url'] ?>" class="post-details details-type-link" rel="nofollow" style="margin-bottom: -8px;">Lees verder...<i class="fa fa-caret-right" aria-hidden="true"></i></a>
     </div>
   </article>
   <?php endforeach; ?>

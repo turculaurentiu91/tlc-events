@@ -38,51 +38,51 @@ msgstr "Aanmeld notificatie"
 
 #: src/archive-template.php:24
 msgid "January"
-msgstr "Januari"
+msgstr "januari"
 
 #: src/archive-template.php:25
 msgid "February"
-msgstr "Februari"
+msgstr "februari"
 
 #: src/archive-template.php:26
 msgid "March"
-msgstr "Maart"
+msgstr "maart"
 
 #: src/archive-template.php:27
 msgid "April"
-msgstr "April"
+msgstr "april"
 
 #: src/archive-template.php:28
 msgid "May"
-msgstr "Mei"
+msgstr "mei"
 
 #: src/archive-template.php:29
 msgid "June"
-msgstr "Juni"
+msgstr "juni"
 
 #: src/archive-template.php:30
 msgid "July"
-msgstr "Juli"
+msgstr "juli"
 
 #: src/archive-template.php:31
 msgid "August"
-msgstr "Augustus"
+msgstr "augustus"
 
 #: src/archive-template.php:32
 msgid "September"
-msgstr "September"
+msgstr "september"
 
 #: src/archive-template.php:33
 msgid "October"
-msgstr "Oktober"
+msgstr "oktober"
 
 #: src/archive-template.php:34
 msgid "November"
-msgstr "November"
+msgstr "november"
 
 #: src/archive-template.php:35
 msgid "December"
-msgstr "December"
+msgstr "december"
 
 #: src/EventMetaBox.php:48
 msgid "Dates"

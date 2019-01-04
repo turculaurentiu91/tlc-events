@@ -50,7 +50,7 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
 <div id="archive-template">
   <div v-for="month in months" class="w3-border-top" style="margin-top: 20px; padding-top: 20px;">
     <h3 class="w3-text-red w3-margin-left">{{month.year}}</h3>
-    <h4 class="w3-margin-left">{{month.name}}</h4>
+    <h4 class="w3-margin-left text-capitalize">{{month.name}}</h4>
     <div class="w3-row-padding w3-margin-bottom w3-padding-bottom" v-for="eventIndex in month.eventsIndexes">
       <div class="w3-col l2 m2">
         <a v-bind:href="events[eventIndex].url">
