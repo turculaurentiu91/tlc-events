@@ -37,7 +37,6 @@ $monthsLocale = array(
 wp_reset_query();
 ?>
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="<?= plugins_url('archive-template.css', dirname(__FILE__)) ?>">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
@@ -51,7 +50,7 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
 <div id="archive-template">
   <div v-for="month in months" class="w3-border-top" style="margin-top: 20px; padding-top: 20px;">
     <h3 class="w3-text-red w3-margin-left">{{month.year}}</h3>
-    <p class="w3-margin-left">{{month.name}}</p>
+    <h4 class="w3-margin-left">{{month.name}}</h4>
     <div class="w3-row-padding w3-margin-bottom w3-padding-bottom" v-for="eventIndex in month.eventsIndexes">
       <div class="w3-col l2 m2">
         <a v-bind:href="events[eventIndex].url">
@@ -62,14 +61,14 @@ integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="ano
       </div>
       <div class="w3-col l10 m10">
         <div class="">
-          <span class="" v-for="(date, dateIndex) in filteredDatesByMonth(events[eventIndex], month.number)">
+			<span class="" v-for="(date, dateIndex) in filteredDatesByMonth(events[eventIndex], month.number)">
               {{date.m.format('DD')}} {{month.name}} {{date.m.format('YYYY')}}
-          </span>
+			</span>
         </div>
         
-        <a class="tlc-event-title-link w3-text-red w3-xlarge" v-bind:href="events[eventIndex].url">
-          <b>{{events[eventIndex].title}}</b>
-        </a>
+        <h3><a v-bind:href="events[eventIndex].url">
+          {{events[eventIndex].title}}
+        </a></h3>
         
         <p style="margin: 0;" v-for="loc in filteredDatesByMonth(events[eventIndex], month.number)[0].locations">
         {{loc.name}} | {{loc.city}} | {{loc.address}}

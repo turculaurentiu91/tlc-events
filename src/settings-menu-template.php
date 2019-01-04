@@ -46,7 +46,6 @@
   $unsub_template = get_option('tlc-events-unsub-template');
 ?>
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="wrap">
   <h2><?= __("TLC Events Settings Page", "tlc-events") ?></h2>
 

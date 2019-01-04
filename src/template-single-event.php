@@ -1,7 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
 integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <?php
 if (isset($_GET['unsubscribe'])) {
@@ -56,8 +55,8 @@ if (isset($_GET['unsubscribe'])) {
 
 <div class="hop-events" id="tlc-events">
   <h3><?= __("Dates and Locations", "tlc-events") ?>:</h3>
-  <div class="hop-events-single" v-for="(date, dateIndex) in dates">
-    <div v-for="(loc, locIndex) in date.locations" class="hop-events-data">
+  <div class="hop-events-total" v-for="(date, dateIndex) in dates">
+    <div v-for="(loc, locIndex) in date.locations" class="hop-events-single">
     	<div class="hop-events-meta"><span class="events">{{loc.name}} | {{date.day}}-{{date.month}}-{{date.year}} | {{loc.startHour + ':' + loc.startMin}} - {{loc.endHour + ':' + loc.endMin}}</span></div>
     	<div class="hop-events-button"><button class="default-btn-shortcode dt-btn dt-btn-m" @click="subscribeClick(dateIndex, locIndex)" v-if="isEmailPresent"><b><?= __("Subscribe", "tlc-events") ?></b></button></div>
 		<div class="hop-events-info"><span class="events"><?= __("Address", "tlc-events") ?>: </span>{{loc.address}}, {{loc.city}}</div>
@@ -72,7 +71,7 @@ if (isset($_GET['unsubscribe'])) {
         <h3><b><?= __("Subscription Form", "tlc-events") ?></b></h3>
         <div class="w3-panel">
           <hr>
-          <p>{{selectedDate.day}}-{{selectedDate.month}}-{{selectedDate.year}} van {{selectedLocation.startHour + ':' + selectedLocation.startMin}} tot {{selectedLocation.endHour + ':' + selectedLocation.endMin}} </p>
+          <p><b>{{selectedDate.day}}-{{selectedDate.month}}-{{selectedDate.year}} van {{selectedLocation.startHour + ':' + selectedLocation.startMin}} tot {{selectedLocation.endHour + ':' + selectedLocation.endMin}}</b></p>
           <p> <b><?= __("City", "tlc-events") ?>:</b> {{selectedLocation.city}} | <b><?= __("Address", "tlc-events") ?>:</b> {{selectedLocation.address}} </p> <hr>
         </div>
         <form action="#" v-on:submit.prevent="subscribe">
