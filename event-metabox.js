@@ -579,6 +579,7 @@ Vue.component('form-input', {
 const app = new Vue({
   el: '#event-metabox',
   data: {
+    adminEmail: admin_email || "",
     page: 'dates',
     locDragging: false,
     dates: rawDates === "" ? [{

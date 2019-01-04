@@ -28,10 +28,18 @@ class EventMetaBox {
   public function renderMetabox($post)
   {
     wp_nonce_field( 'tlc-events-nonce-action', 'tlc-events-nonce' );
+
+    $admin_email = get_post_meta($post->ID, 'tlc-admin-email', true);
+    if (!$admin_email) {
+      $admin_email = get_option('tlc-events-admin-email');
+    }
+
     ?>
     <script>
       const rawDates = "<?= get_post_meta($post->ID, 'tlc-dates', true) ?>";    
       const rawFormFields = "<?= get_post_meta($post->ID, 'tlc-form-fields', true) ?>";
+      const admin_email = "<?= $admin_email ?>";
+
     </script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="<?= plugins_url('event-metabox.css', dirname(__FILE__)) ?>">
@@ -284,6 +292,10 @@ class EventMetaBox {
           <div class="w3-panel w3-container" style="padding-bottom: 50px!important;">
             <p><?= __("Available tags", "tlc-events") ?>: %location% %city% %date% %start_time% %end_time% %address% %event_title% %unsubscribe_link%</p>
             <p><?= __("Other tags are derrived from form fields slugs. For example, if a form field slug is \"full_name\" an valid tag is &#37;full_name&#37; and it will be replaced with what user submitted in that form field in the subscription form.", "tlc-events") ?></p>
+            <br><br>
+            <label for="tlc-admin-email">Notificatie e-mailadres</label>
+            <input type="email" id="tlc-admin-email" name="tlc-admin-email" v-model="adminEmail" class="w3-input" reqired>
+            
             <p class="tlc-subnote"><?= __("Invalid tags will not be replaced in the final email") ?></p>
           </div>
         </div>
@@ -346,5 +358,6 @@ class EventMetaBox {
     update_post_meta($postId, 'tlc-dates', $dates);
     update_post_meta($postId, 'tlc-form-fields', $formFields);
     update_post_meta($postId, 'tlc-email-template', $_POST['tlc-email-template']);
+    update_post_meta($postId, 'tlc-admin-email', $_POST['tlc-admin-email']);
   }
 }
