@@ -72,24 +72,100 @@ usort($events, function($a, $b) {
 $events = array_slice($events, 0, 3);
 ?>
 
+<style>
+    .tlc-card {
+        margin-top 0;
+        background-color: #f8f8f9;
+        animation: fadeInFromNone .5s ease-out;
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+    .tlc-card:not(:first-child) {
+        margin-top: 10px;
+    }
+    
+    .tlc-card__thumbnail-wrap {
+        width: 40%;
+        padding: 0;
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+    .tlc-card__thumbnail {
+        padding: 10px 0;
+        position: relative;
+        display: block;
+        
+    }
+    
+    .tlc-card__thumbnail a {
+        display: block;
+        padding: 10px 0;
+        line-heingh:0;
+        overflow: hidden;
+    }
+    
+    .tlc-card__thumbnail a:hover > img {
+        transform: scale(1.5);
+    }
+    
+    .tlc-card__thumbnail a img {
+        width: 230px;
+        max-width: 100%;
+        height: auto;
+        transform: scale(1);
+        transition: transform 3s;
+    }
+    
+    .tlc-card__content {
+        width: 60%;
+        padding: 10px;
+        position: relative;
+        box-sizing: border-box;
+        max-width: 100%;
+        z-index: 10;
+    }
+    
+    .tlc-card__content h3 {
+        margin-bottom: 5px;
+        font-weight: bold;
+        font: normal normal normal 25px / 36px "Roboto", Helvetica, Arial, Verdana, sans-serif;
+        
+    }
+    
+    .tlc-card__content h3 a {
+        font-family: "eurostile","opensans",sans-serif;
+        font-weight: normal;
+        transition: color .35s;
+        color: #ee0a00;
+        display: inline-block;
+    }
+    
+    .tlc-card__content p {
+        margin-bottom: 1em !important;
+    }
+</style>
+
 <div >
   <?php foreach($events as $event) : ?>
-  <article>
-    <div class="post-thumbnail-wrap">
-      <div class="post-thumbnail">
-        <a href="<?= $event['url'] ?>" class="post-thumbnail-rollover layzr-bg-transparent">
+  <article class="tlc-card">
+    <div class="tlc-card__thumbnail-wrap">
+      <div class="tlc-card__thumbnail">
+        <a href="<?= $event['url'] ?>">
           <img class="blog-thumb-lazy-load preload-me blog-thumb-lazy-load-show is-loaded" 
           src="<?= $event['img'] ?>" 
-          alt="" title="sluiting-tijdens-kerst-en-nieuw" width="469" height="265" sizes="230px" 
-          srcset="<?= $event['img'] ?> 469w" style="will-change: auto;">
+          srcset="<?= $event['img'] ?>" style="will-change: auto;">
         </a>
       </div>
     </div>
 
 
-    <div class="post-entry-content">
+    <div class="tlc-card__content">
 
-      <h3 class="entry-title">
+      <h3>
         <a href="<?= $event['url'] ?>" title="<?= $event['title'] ?>" rel="bookmark"><?= $event['title'] ?></a>
       </h3>
 
