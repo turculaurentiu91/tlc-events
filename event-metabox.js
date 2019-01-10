@@ -86,6 +86,15 @@ Vue.component('insert-sub', {
                v-if="field.type === 'textarea'"
               ></textarea>
 
+              <select 
+                v-model="formData[field.slug]"
+                v-if="field.type === 'select' && field.selectOptions"
+                class="w3-select w3-border"
+              >
+                <option disabled selected value="">kies een</option>
+                <option v-for="option in field.selectOptions">{{option}}</option>
+              </select>
+
             </div>
             <div class="w3-margin">
               <button class="w3-button w3-teal w3-block" v-bind:disabled="fetching">
@@ -564,7 +573,7 @@ Vue.component('form-input', {
           </select>
         </div>
         <div class="w3-col l1 w3-padding" v-if="type == 'select'">
-          <button class="w3-button" @click.prevent="displayMore = !displayMore">
+          <button class="w3-button" v-bind:disabled="canDelete" @click.prevent="displayMore = !displayMore">
             <span v-if="!displayMore">Meer <span class="dashicons dashicons-arrow-down-alt2"></span> </span>
             <span v-if="displayMore">Minder <span class="dashicons dashicons-arrow-up-alt2"></span> </span>
           </button>
