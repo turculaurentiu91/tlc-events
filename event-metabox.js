@@ -74,7 +74,18 @@ Vue.component('insert-sub', {
           <form @submit.prevent="submit">
             <div class="w3-margin" v-for="field in formFields">
               <label v-bind:for="field.slug">{{field.value}}</label>
-              <input type="text" class="w3-input w3-border" v-model="formData[field.slug]">
+              <input 
+                type="text" 
+                class="w3-input w3-border" 
+                v-model="formData[field.slug]" 
+                v-if="field.type === 'text' || !field.type"
+              >
+              <textarea
+               class="w3-input w3-border"
+               v-model="formData[field.slug]"
+               v-if="field.type === 'textarea'"
+              ></textarea>
+
             </div>
             <div class="w3-margin">
               <button class="w3-button w3-teal w3-block" v-bind:disabled="fetching">
@@ -542,7 +553,11 @@ Vue.component('form-input', {
         </div>
         <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
         <div class="w3-col l2 w3-padding">
-          <select class="w3-select w3-border" @change="$emit('type-change', { index: index, value: $event.target.value })">
+          <select 
+            class="w3-select w3-border" 
+            @change="$emit('type-change', { index: index, value: $event.target.value })"
+            v-bind:disabled="canDelete"
+          >
             <option value="text" v-bind:selected="computedType === 'text'">text</option>
             <option value="textarea" v-bind:selected="computedType === 'textarea'">textarea</option>
           </select>

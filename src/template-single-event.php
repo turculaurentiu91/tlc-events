@@ -1,6 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
 integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <?php
 if (isset($_GET['unsubscribe'])) {
@@ -85,7 +86,16 @@ if (isset($_GET['unsubscribe'])) {
               v-model="formData[field.slug]"
               required
               style="width: 100%!important"
+              v-if="field.type === 'text' || !field.type"
             >
+            <textarea 
+              v-bind:name="field.slug" 
+              v.bind:id="field.slug"
+              v-model="formData[field.slug]"
+              required
+              v-if="field.type === 'textarea'" 
+              class=""
+            ></textarea>
           </div>
           <div class="w3-margin">
             <input type="checkbox" required class="w3-check"> 
