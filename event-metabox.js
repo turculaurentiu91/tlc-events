@@ -520,7 +520,7 @@ Vue.component('location-input', {
 });
 
 Vue.component('form-input', {
-  props: ['index', 'label', 'value', 'slug', 'position', "canDelete"],
+  props: ['index', 'label', 'value', 'slug', 'position', "canDelete", "type"],
   template: `
   <div v-show="!dragged" draggable="true" 
   v-on:dragover.prevent="draggedOver = true"
@@ -541,6 +541,12 @@ Vue.component('form-input', {
           v-bind:disabled="canDelete">
         </div>
         <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
+        <div class="w3-col l2 w3-padding">
+          <select class="w3-select w3-border" @change="$emit('type-change', { index: index, value: $event.target.value })">
+            <option value="text" v-bind:selected="computedType === 'text'">text</option>
+            <option value="textarea" v-bind:selected="computedType === 'textarea'">textarea</option>
+          </select>
+        </div>
         <div class="w3-rest w3-right-align">
           <button v-bind:disabled="canDelete"
             class="w3-button w3-red w3-round" 
@@ -557,6 +563,11 @@ Vue.component('form-input', {
     draggedOver: false,
     dragged: false,
   }; },
+  computed: {
+    computedType() {
+      return this.type ? this.type : "text";
+    }
+  },
   methods: {
     handleDrag: function(e) {
       this.dragged = true;
@@ -718,6 +729,12 @@ const app = new Vue({
 
   methods: {
 
+    changeFormFieldType({index, value}) {
+      const newFormFields = [...this.formFields];
+      newFormFields[index].type = value;
+      this.formFields = newFormFields;
+    },
+
     locationDrop: function(e) {
       const newLoc = [ ...this.locations ];
       newLoc[e.dragIndex].position = e.dropPos;
@@ -775,6 +792,7 @@ const app = new Vue({
         value: field,
         slug: generateSlug(field),
         position: this.formFields.length+1,
+        type: 'text',
       });
     },
 

@@ -41,6 +41,7 @@ class EventMetaBox {
       const admin_email = "<?= $admin_email ?>";
 
     </script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="<?= plugins_url('event-metabox.css', dirname(__FILE__)) ?>">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" 
@@ -199,6 +200,8 @@ class EventMetaBox {
               v-bind:slug="field.slug"
               v-bind:position="field.position"
               v-on:drop="formFieldDrop"
+              v-bind:type="field.type"
+              v-on:type-change="changeFormFieldType"
             >
             </form-input>
           </div>
