@@ -96,6 +96,16 @@ if (isset($_GET['unsubscribe'])) {
               v-if="field.type === 'textarea'" 
               class=""
             ></textarea>
+
+            <select 
+                v-model="formData[field.slug]"
+                v-if="field.type === 'select' && field.selectOptions"
+                class="w3-select w3-border"
+            >
+              <option disabled selected value="">kies een</option>
+              <option v-for="option in field.selectOptions">{{option}}</option>
+            </select>
+
           </div>
           <div class="w3-margin">
             <input type="checkbox" required class="w3-check"> 
