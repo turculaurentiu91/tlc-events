@@ -64,3 +64,5 @@ v1.1.2
 
 v1.1.3
   - Subscribe form fields now have a type
+  - Subscribe form fields can now be of textarea type
+  - Subscribe form fields can now be of select type
