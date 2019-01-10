@@ -61,3 +61,6 @@ v1.1.2
   - Added Read and agree with terms and conditions checkobx on subscription form
   - Fixed bug where a new subscription displaied an error even if the server returned success
   - Fixed a bug where the subscription table didn't displaied properly when he was smaller than total width of parent
+
+v1.1.3
+  - Subscribe form fields now have a type
