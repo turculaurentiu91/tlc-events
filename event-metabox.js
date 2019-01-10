@@ -531,7 +531,7 @@ Vue.component('location-input', {
 });
 
 Vue.component('form-input', {
-  props: ['index', 'label', 'value', 'slug', 'position', "canDelete", "type"],
+  props: ['index', 'label', 'value', 'slug', 'position', "canDelete", "type", "selectOptions"],
   template: `
   <div v-show="!dragged" draggable="true" 
   v-on:dragover.prevent="draggedOver = true"
@@ -560,7 +560,14 @@ Vue.component('form-input', {
           >
             <option value="text" v-bind:selected="computedType === 'text'">text</option>
             <option value="textarea" v-bind:selected="computedType === 'textarea'">textarea</option>
+            <option value="select" v-bind:selected="computedType === 'select'">Select</option>
           </select>
+        </div>
+        <div class="w3-col l1 w3-padding" v-if="type == 'select'">
+          <button class="w3-button" @click.prevent="displayMore = !displayMore">
+            <span v-if="!displayMore">Meer <span class="dashicons dashicons-arrow-down-alt2"></span> </span>
+            <span v-if="displayMore">Minder <span class="dashicons dashicons-arrow-up-alt2"></span> </span>
+          </button>
         </div>
         <div class="w3-rest w3-right-align">
           <button v-bind:disabled="canDelete"
@@ -571,12 +578,27 @@ Vue.component('form-input', {
           </button>
         </div>
       </div>
+      <div
+        v-if="type === 'select' && displayMore"
+        class="w3-panel"
+      >
+        <input type="text" v-model="displayMoreInput" class="regular-text" @keypress.enter="addNewOption" placeholder="Een optie">
+        <a href="#" class="button-secondary" @click.prevent="addNewOption" >Voeg een nieuwe optie toe</a>
+        <div v-if="selectOptions">
+          <span class="w3-tag w3-gray" style="margin: 5px;" v-for="(option, optionIndex) in selectOptions">
+            <span style="cursor: pointer;" @click.prevent="$emit('remove-option', {index: index, optionIndex: optionIndex})">&times;</span>
+            {{option}}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   `,
   data: function() { return { 
     draggedOver: false,
     dragged: false,
+    displayMore: false,
+    displayMoreInput: '',
   }; },
   computed: {
     computedType() {
@@ -584,6 +606,12 @@ Vue.component('form-input', {
     }
   },
   methods: {
+    addNewOption(e) {
+      e.preventDefault();
+      this.$emit('add-option', {index: this.index, value: this.displayMoreInput});
+      this.displayMoreInput = '';
+    },
+
     handleDrag: function(e) {
       this.dragged = true;
       e.dataTransfer.setData('text/plain', this.index);
@@ -743,6 +771,21 @@ const app = new Vue({
   },
 
   methods: {
+
+    addFormFieldOption({index, value}) {
+      if (value === '') { return; }
+      const newFormFields = [...this.formFields];
+      const options = newFormFields[index].selectOptions ?
+        [...newFormFields[index].selectOptions, value] : [value]
+      newFormFields[index].selectOptions = options;
+      this.formFields = newFormFields;
+    },
+
+    removeFormFieldOption({index, optionIndex}) {
+      const newFormFields = [...this.formFields];
+      newFormFields[index].selectOptions = newFormFields[index].selectOptions.filter((op, ind) => ind !== optionIndex);
+      this.formFields = newFormFields;
+    },
 
     changeFormFieldType({index, value}) {
       const newFormFields = [...this.formFields];

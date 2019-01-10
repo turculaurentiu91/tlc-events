@@ -202,6 +202,9 @@ class EventMetaBox {
               v-on:drop="formFieldDrop"
               v-bind:type="field.type"
               v-on:type-change="changeFormFieldType"
+              v-bind:select-options="field.selectOptions"
+              v-on:add-option="addFormFieldOption"
+              v-on:remove-option="removeFormFieldOption"
             >
             </form-input>
           </div>
