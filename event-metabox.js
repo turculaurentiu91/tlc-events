@@ -74,7 +74,27 @@ Vue.component('insert-sub', {
           <form @submit.prevent="submit">
             <div class="w3-margin" v-for="field in formFields">
               <label v-bind:for="field.slug">{{field.value}}</label>
-              <input type="text" class="w3-input w3-border" v-model="formData[field.slug]">
+              <input 
+                type="text" 
+                class="w3-input w3-border" 
+                v-model="formData[field.slug]" 
+                v-if="field.type === 'text' || !field.type"
+              >
+              <textarea
+               class="w3-input w3-border"
+               v-model="formData[field.slug]"
+               v-if="field.type === 'textarea'"
+              ></textarea>
+
+              <select 
+                v-model="formData[field.slug]"
+                v-if="field.type === 'select' && field.selectOptions"
+                class="w3-select w3-border"
+              >
+                <option disabled selected value="">kies een</option>
+                <option v-for="option in field.selectOptions">{{option}}</option>
+              </select>
+
             </div>
             <div class="w3-margin">
               <button class="w3-button w3-teal w3-block" v-bind:disabled="fetching">
@@ -520,7 +540,7 @@ Vue.component('location-input', {
 });
 
 Vue.component('form-input', {
-  props: ['index', 'label', 'value', 'slug', 'position', "canDelete"],
+  props: ['index', 'label', 'value', 'slug', 'position', "canDelete", "type", "selectOptions"],
   template: `
   <div v-show="!dragged" draggable="true" 
   v-on:dragover.prevent="draggedOver = true"
@@ -541,6 +561,23 @@ Vue.component('form-input', {
           v-bind:disabled="canDelete">
         </div>
         <div class="w3-col l2 w3-padding"><label>Slug: {{slug}}</label></div>
+        <div class="w3-col l2 w3-padding">
+          <select 
+            class="w3-select w3-border" 
+            @change="$emit('type-change', { index: index, value: $event.target.value })"
+            v-bind:disabled="canDelete"
+          >
+            <option value="text" v-bind:selected="computedType === 'text'">text</option>
+            <option value="textarea" v-bind:selected="computedType === 'textarea'">textarea</option>
+            <option value="select" v-bind:selected="computedType === 'select'">Select</option>
+          </select>
+        </div>
+        <div class="w3-col l1 w3-padding" v-if="type == 'select'">
+          <button class="w3-button" v-bind:disabled="canDelete" @click.prevent="displayMore = !displayMore">
+            <span v-if="!displayMore">Meer <span class="dashicons dashicons-arrow-down-alt2"></span> </span>
+            <span v-if="displayMore">Minder <span class="dashicons dashicons-arrow-up-alt2"></span> </span>
+          </button>
+        </div>
         <div class="w3-rest w3-right-align">
           <button v-bind:disabled="canDelete"
             class="w3-button w3-red w3-round" 
@@ -550,14 +587,40 @@ Vue.component('form-input', {
           </button>
         </div>
       </div>
+      <div
+        v-if="type === 'select' && displayMore"
+        class="w3-panel"
+      >
+        <input type="text" v-model="displayMoreInput" class="regular-text" @keypress.enter="addNewOption" placeholder="Een optie">
+        <a href="#" class="button-secondary" @click.prevent="addNewOption" >Voeg een nieuwe optie toe</a>
+        <div v-if="selectOptions">
+          <span class="w3-tag w3-gray" style="margin: 5px;" v-for="(option, optionIndex) in selectOptions">
+            <span style="cursor: pointer;" @click.prevent="$emit('remove-option', {index: index, optionIndex: optionIndex})">&times;</span>
+            {{option}}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   `,
   data: function() { return { 
     draggedOver: false,
     dragged: false,
+    displayMore: false,
+    displayMoreInput: '',
   }; },
+  computed: {
+    computedType() {
+      return this.type ? this.type : "text";
+    }
+  },
   methods: {
+    addNewOption(e) {
+      e.preventDefault();
+      this.$emit('add-option', {index: this.index, value: this.displayMoreInput});
+      this.displayMoreInput = '';
+    },
+
     handleDrag: function(e) {
       this.dragged = true;
       e.dataTransfer.setData('text/plain', this.index);
@@ -718,6 +781,27 @@ const app = new Vue({
 
   methods: {
 
+    addFormFieldOption({index, value}) {
+      if (value === '') { return; }
+      const newFormFields = [...this.formFields];
+      const options = newFormFields[index].selectOptions ?
+        [...newFormFields[index].selectOptions, value] : [value]
+      newFormFields[index].selectOptions = options;
+      this.formFields = newFormFields;
+    },
+
+    removeFormFieldOption({index, optionIndex}) {
+      const newFormFields = [...this.formFields];
+      newFormFields[index].selectOptions = newFormFields[index].selectOptions.filter((op, ind) => ind !== optionIndex);
+      this.formFields = newFormFields;
+    },
+
+    changeFormFieldType({index, value}) {
+      const newFormFields = [...this.formFields];
+      newFormFields[index].type = value;
+      this.formFields = newFormFields;
+    },
+
     locationDrop: function(e) {
       const newLoc = [ ...this.locations ];
       newLoc[e.dragIndex].position = e.dropPos;
@@ -775,6 +859,7 @@ const app = new Vue({
         value: field,
         slug: generateSlug(field),
         position: this.formFields.length+1,
+        type: 'text',
       });
     },
 
