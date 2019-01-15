@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: WP TLC Events
+Plugin Name: Evenementen module
 Plugin URI: https://www.fiverr.com/laurentiuturcu
 Author URI: https://www.fiverr.com/laurentiuturcu
-Description: Manage Events
+Description: Evenementen module
 Version: 1.0.0
 Author: Turcu Laurentiu
 Text Domain: tlc-events
