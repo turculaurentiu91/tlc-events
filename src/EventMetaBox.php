@@ -264,10 +264,11 @@ class EventMetaBox {
               </table>
             </div>
             <h3 class="w3-margin-left">Filteren op:</h3>
-            <filter-sub 
+            <div v-if="dates[subsSelectedDate].locations.length > 0" ><filter-sub 
               v-bind:filter-fields="filterFields"
               v-on:check="filterFields[$event.key] = $event.value"
-            ></filter-sub>
+              v-if="subsTable.length > 0"
+            ></filter-sub></div>
             <button 
               class="w3-blue w3-round w3-button w3-margin tlc-newDate-button" @click.prevent="exportToCsv">
               <?= __("Export Table to CSV", "tlc-events") ?>
@@ -305,17 +306,17 @@ class EventMetaBox {
           </div>
         </div>
       </div>
-      <delete-sub
-        v-if="hasAnySubs"
-        v-bind:show="showDeleteModal"
-        api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/admin/unsubscribe" ?>"
-        v-bind:date-id="dates[subsSelectedDate].id"
-        v-bind:location-id="dates[subsSelectedDate].locations[subsSelectedLoc].id"
-        v-bind:subscription-id="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions[subsSelectedSub].id"
-        v-bind:event-id="<?= $post->ID ?>"
-        v-on:close="showDeleteModal = false"
-        v-on:deleted="deleteSub"
-      >
+      <div v-if="dates[subsSelectedDate].locations.length > 0"> <delete-sub
+          v-if="subsTable.length > 0"
+          v-bind:show="showDeleteModal"
+          api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/admin/unsubscribe" ?>"
+          v-bind:date-id="dates[subsSelectedDate].id"
+          v-bind:location-id="dates[subsSelectedDate].locations[subsSelectedLoc].id"
+          v-bind:subscription-id="dates[subsSelectedDate].locations[subsSelectedLoc].subscriptions[subsSelectedSub].id"
+          v-bind:event-id="<?= $post->ID ?>"
+          v-on:close="showDeleteModal = false"
+          v-on:deleted="deleteSub"
+        ></div>
       </delete-sub>
       <insert-sub
         api-endpoint="<?= get_site_url() . "/wp-json/tlc-events/subscribe" ?>"
