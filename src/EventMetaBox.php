@@ -256,7 +256,11 @@ class EventMetaBox {
                 <tr v-for="(sub, index) in filteredSubsTable">
                   <td v-for="value in sub"><span style="display: inline-block">{{value}}</span></td>
                   <td style="width: 2em;">
-                    <button @click.prevent="selectDeleteSub(index)" class="w3-button w3-round w3-text-red">
+                    <button 
+                      @click.prevent="selectDeleteSub(index)" 
+                      class="w3-button w3-round w3-text-red"
+                      v-bind:disabled="sub['Verwijderd Op'] !== ' '" 
+                      >
                       <span class="dashicons dashicons-no"></span>
                     </button>
                   </td>
