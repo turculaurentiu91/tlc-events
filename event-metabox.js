@@ -567,15 +567,15 @@ Vue.component('form-input', {
             @change="$emit('type-change', { index: index, value: $event.target.value })"
             v-bind:disabled="canDelete"
           >
-            <option value="text" v-bind:selected="computedType === 'text'">text</option>
-            <option value="textarea" v-bind:selected="computedType === 'textarea'">textarea</option>
-            <option value="select" v-bind:selected="computedType === 'select'">Select</option>
+            <option value="text" v-bind:selected="computedType === 'text'">Tekst</option>
+            <option value="textarea" v-bind:selected="computedType === 'textarea'">Tekstgebied</option>
+            <option value="select" v-bind:selected="computedType === 'select'">Opties</option>
           </select>
         </div>
         <div class="w3-col l1 w3-padding" v-if="type == 'select'">
           <button class="w3-button" v-bind:disabled="canDelete" @click.prevent="displayMore = !displayMore">
-            <span v-if="!displayMore">Meer <span class="dashicons dashicons-arrow-down-alt2"></span> </span>
-            <span v-if="displayMore">Minder <span class="dashicons dashicons-arrow-up-alt2"></span> </span>
+            <span v-if="!displayMore">Opties <span class="dashicons dashicons-arrow-down-alt2"></span> </span>
+            <span v-if="displayMore">Sluit opties <span class="dashicons dashicons-arrow-up-alt2"></span> </span>
           </button>
         </div>
         <div class="w3-rest w3-right-align">
@@ -591,7 +591,7 @@ Vue.component('form-input', {
         v-if="type === 'select' && displayMore"
         class="w3-panel"
       >
-        <input type="text" v-model="displayMoreInput" class="regular-text" @keypress.enter="addNewOption" placeholder="Een optie">
+        <input type="text" v-model="displayMoreInput" class="regular-text" @keypress.enter="addNewOption" placeholder="Optie">
         <a href="#" class="button-secondary" @click.prevent="addNewOption" >Voeg een nieuwe optie toe</a>
         <div v-if="selectOptions">
           <span class="w3-tag w3-gray" style="margin: 5px;" v-for="(option, optionIndex) in selectOptions">

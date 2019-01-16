@@ -102,7 +102,7 @@ if (isset($_GET['unsubscribe'])) {
                 v-if="field.type === 'select' && field.selectOptions"
                 class="w3-select w3-border"
             >
-              <option disabled selected value="">kies een</option>
+              <option disabled selected value="">-- {{field.value}} --</option>
               <option v-for="option in field.selectOptions">{{option}}</option>
             </select>
 
